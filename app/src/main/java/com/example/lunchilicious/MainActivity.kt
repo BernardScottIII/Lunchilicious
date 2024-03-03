@@ -13,6 +13,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.lunchilicious.ui.theme.LunchiliciousTheme
 
 class MainActivity : ComponentActivity() {
+
+    private val lunchiliciousViewModel = LunchiliciousViewModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -22,7 +24,6 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-//                    Greeting("Android")
                     LunchiliciousScreen()
                 }
             }
