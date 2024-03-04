@@ -1,18 +1,14 @@
 package com.example.lunchilicious
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Checkbox
@@ -23,11 +19,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.navigation.compose.NavHost
@@ -43,7 +37,7 @@ data class MenuItem(
     val price: Double
 )
 
-class Repository() {
+class Repository {
     private val items: Array<MenuItem> = arrayOf(
         MenuItem(1, "Hoagie", "BLT Hoagie", "Cold, Onion, lettuce, tomato", 6.95),
         MenuItem(2, "Hoagie", "Cheese Hoagie", "Cheese, mayos, lettuce, tomato", 6.95),
@@ -52,7 +46,7 @@ class Repository() {
         MenuItem(5, "Side", "Gravy Fries", "Fries with gravy on top", 3.95),
         MenuItem(6, "Entree", "Raspberry Chicken", "Fried chicken topped with raspberry sauce and pineapple salsa", 10.00),
         MenuItem(7, "Entree", "Dragon & Phoenix", "Shrimp w. garlic sauce & chunk chicken fried in spicy sauce", 12.00),
-        MenuItem(8, "Burrito", "Everymeat Burrito", "Chicken, beef, pork, lobster, shrimp, fish, duck, lamb, turkey, bison, cornish game hen, goose, pheasant, qual, rabbit, squab, venison, boar, alligator, antelope, caribou, elk, ostrich, turtle, rattlesnake, and kangaroo", 49.95),
+        MenuItem(8, "Burrito", "Everymeat Burrito", "Chicken, beef, pork, lobster, shrimp, fish, duck, lamb, turkey, bison, cornish game hen, goose, pheasant, quail, rabbit, squab, venison, boar, alligator, antelope, caribou, elk, ostrich, turtle, rattlesnake, and kangaroo", 49.95),
         MenuItem(9, "Hoagie", "Beer-Battered Cod Sandwich", "Fried cod filet and tartar sauce on brioche bun", 8.95),
         MenuItem(10, "Pizza", "Margherita Pizza", "Fresh tomatoes, basil and mozzarella on neopolitan crust", 14.95)
     )
@@ -67,14 +61,9 @@ class LunchiliciousViewModel: ViewModel() {
     var buttonText by mutableStateOf("Place Order")
 
     fun updateCheckbox(idx:Int) {
-        // I don't know a better way of updating the array and recomposing
-        var tempArray = checkboxValues.copyOf()
+        val tempArray = checkboxValues.copyOf()
         tempArray[idx] = !tempArray[idx]
         checkboxValues = tempArray
-//        Log.i("CBVs-UDCB", "checkboxValues[idx] = ${checkboxValues[idx]}")
-//        var cbvals = ""
-//        checkboxValues.forEach { cbvals += it }
-//        Log.i("CBVs-UDCB", "lunchiliciousViewModel.checkboxValues = $cbvals")
     }
 
     fun updateButtonText() {
@@ -87,7 +76,6 @@ class LunchiliciousViewModel: ViewModel() {
 }
 
 class MainActivity : ComponentActivity() {
-    private val lunchiliciousViewModel = LunchiliciousViewModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val lunchiliciousViewModel: LunchiliciousViewModel by viewModels()
@@ -142,11 +130,9 @@ fun OrderScreen (
     modifier: Modifier = Modifier,
     lunchiliciousViewModel: LunchiliciousViewModel = LunchiliciousViewModel()
 ) {
-    val state = rememberLazyListState()
     val menu = Repository().getItems()
 
     LazyColumn (
-        state = state,
         modifier = modifier
             .fillMaxWidth()
             .padding(
@@ -155,7 +141,7 @@ fun OrderScreen (
                 end = 0.dp,
                 bottom = 72.dp
             )
-    ) {// Make the argument data.size
+    ) {
         menu.forEach { menuItem ->
             item {
                 StatelessMenuItem(
@@ -169,7 +155,6 @@ fun OrderScreen (
                     checked = lunchiliciousViewModel.checkboxValues[menuItem.id-1],
                     onCheckedChange = {
                         lunchiliciousViewModel.updateCheckbox(menuItem.id-1)
-                        Log.i("CBVs-UDST", "lunchiliciousViewModel.checkboxValues[menuItem.id-1] = ${lunchiliciousViewModel.checkboxValues[menuItem.id-1]}")
                     }
                 )
             }
@@ -200,8 +185,7 @@ fun StatelessMenuItem(
     type: String,
     name: String,
     description: String,
-    unitPrice: Double,
-    modifier: Modifier = Modifier
+    unitPrice: Double
 ) {
 
     Text(text = "id = $id")
@@ -214,11 +198,11 @@ fun StatelessMenuItem(
 @Composable
 fun ConfirmationScreen (
     navigateToConfirmationScreen: () -> Unit,
-    lunchiliciousViewModel: LunchiliciousViewModel = LunchiliciousViewModel(),
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    lunchiliciousViewModel: LunchiliciousViewModel = LunchiliciousViewModel()
 ) {
     val menu = Repository().getItems()
-    var orderTotal:Double = 0.0
+    var orderTotal = 0.0
 
     Column (
         modifier = modifier
