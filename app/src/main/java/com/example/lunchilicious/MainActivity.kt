@@ -18,6 +18,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -56,18 +57,14 @@ class Repository {
 
 class LunchiliciousViewModel: ViewModel() {
 
-    var checkboxValues by mutableStateOf(arrayOf(false, false, false, false, false, false, false, false, false, false))
+    private var _checkboxValueList = mutableStateListOf(false, false, false, false, false, false, false, false, false, false)
+    val checkboxValueList = _checkboxValueList
 
-    var buttonText by mutableStateOf("Place Order")
-
-    fun updateCheckbox(idx:Int) {
-        val tempArray = checkboxValues.copyOf()
-        tempArray[idx] = !tempArray[idx]
-        checkboxValues = tempArray
-    }
+    private var _buttonText by mutableStateOf("Place Order")
+    val buttonText = _buttonText
 
     fun updateButtonText() {
-        buttonText = if (buttonText == "Place Order") {
+        _buttonText = if (_buttonText == "Place Order") {
             "Continue Shopping"
         } else {
             "Place Order"
@@ -152,9 +149,9 @@ fun OrderScreen (
                     unitPrice = menuItem.price
                 )
                 Checkbox(
-                    checked = lunchiliciousViewModel.checkboxValues[menuItem.id-1],
+                    checked = lunchiliciousViewModel.checkboxValueList[menuItem.id-1],
                     onCheckedChange = {
-                        lunchiliciousViewModel.updateCheckbox(menuItem.id-1)
+                        lunchiliciousViewModel.checkboxValueList[menuItem.id-1] = !lunchiliciousViewModel.checkboxValueList[menuItem.id-1]
                     }
                 )
             }
@@ -216,7 +213,7 @@ fun ConfirmationScreen (
     ){
         Text(text = "Order Summary")
         menu.forEach { menuItem ->
-            if (lunchiliciousViewModel.checkboxValues[menuItem.id-1]) {
+            if (lunchiliciousViewModel.checkboxValueList[menuItem.id-1]) {
                 Text(text = "${menuItem.name} x 1")
                 orderTotal += menuItem.price
             }
