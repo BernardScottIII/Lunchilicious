@@ -4,7 +4,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,6 +26,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.navigation.compose.NavHost
@@ -137,16 +141,16 @@ fun OrderScreen (
                 top = 0.dp,
                 end = 0.dp,
                 bottom = 72.dp
-            )
+            ),
+        verticalArrangement = Arrangement.spacedBy(6.dp)
     ) {
         menu.forEach { menuItem ->
             item {
                 StatelessMenuItem(
-                    id = menuItem.id,
-                    type = menuItem.type,
-                    name = menuItem.name,
-                    description = menuItem.description,
-                    unitPrice = menuItem.price
+                    menuItem = menuItem,
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .background(Color(0xFF442359))
                 )
                 Checkbox(
                     checked = lunchiliciousViewModel.checkboxValueList[menuItem.id-1],
@@ -178,18 +182,27 @@ fun OrderScreen (
 
 @Composable
 fun StatelessMenuItem(
-    id: Int,
-    type: String,
-    name: String,
-    description: String,
-    unitPrice: Double
+    menuItem: MenuItem,
+    modifier: Modifier = Modifier
 ) {
+//    Text(text = "id = ${menuItem.id}")
 
-    Text(text = "id = $id")
-    Text(text = "type = $type")
-    Text(text = "name = $name")
-    Text(text = "description = $description")
-    Text(text = "unitPrice = $unitPrice")
+    Text(
+        text = menuItem.type,
+        modifier = modifier
+    )
+    Text(
+        text = "name = ${menuItem.name}",
+        modifier = modifier
+    )
+    Text(
+        text = "description = ${menuItem.description}",
+        modifier = modifier
+    )
+    Text(
+        text = "unitPrice = ${menuItem.price}",
+        modifier = modifier
+    )
 }
 
 @Composable
