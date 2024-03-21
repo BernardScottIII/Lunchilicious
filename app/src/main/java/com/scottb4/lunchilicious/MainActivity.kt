@@ -32,6 +32,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.scottb4.lunchilicious.ui.theme.LunchiliciousTheme
+import java.text.NumberFormat
 
 data class MenuItem(
     val id: Int,
@@ -184,8 +185,10 @@ fun StatelessMenuItem(
     menuItem: MenuItem,
     modifier: Modifier = Modifier
 ) {
-//    Text(text = "id = ${menuItem.id}")
-
+    Text(
+        text = "id = ${menuItem.id}",
+        modifier = modifier
+    )
     Text(
         text = menuItem.type,
         modifier = modifier
@@ -195,11 +198,7 @@ fun StatelessMenuItem(
         modifier = modifier
     )
     Text(
-        text = "description = ${menuItem.description}",
-        modifier = modifier
-    )
-    Text(
-        text = "unitPrice = ${menuItem.price}",
+        text = "unitPrice = ${NumberFormat.getCurrencyInstance().format(menuItem.price)}",
         modifier = modifier
     )
 }
@@ -214,43 +213,45 @@ fun ConfirmationScreen (
     var orderTotal = 0.0
 
     Column (
-        modifier = modifier
-            .fillMaxSize()
-            .padding(
-                start = 0.dp,
-                top = 0.dp,
-                end = 0.dp,
-                bottom = 72.dp
-            )
-    ){
-        Text(text = "Order Summary")
-        menu.forEach { menuItem ->
-            if (lunchiliciousViewModel.checkboxValueList[menuItem.id-1]) {
-                Text(text = "${menuItem.name} x 1")
-                orderTotal += menuItem.price
+        modifier = modifier.fillMaxWidth()
+    ) {
+        LazyColumn(
+            modifier = modifier
+                .fillMaxWidth()
+                .weight(1F),
+            verticalArrangement = Arrangement.spacedBy(6.dp),
+        ) {
+            item { Text(text = "Order Summary") }
+            menu.forEach { menuItem ->
+                if (lunchiliciousViewModel.checkboxValueList[menuItem.id-1]) {
+                    item { Text(text = "${menuItem.name} => 1 x ${NumberFormat.getCurrencyInstance().format(menuItem.price)}") }
+                    orderTotal += menuItem.price
+                }
             }
+        }
+        Row (
+            modifier = modifier
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.Bottom
+        ){
+            Text(text = "Order Total: ${ NumberFormat.getCurrencyInstance().format(orderTotal) }")
         }
         Row (
             verticalAlignment = Alignment.Bottom
         ){
-            Text(text = "Order Total: $orderTotal")
-        }
-    }
-    Row (
-        verticalAlignment = Alignment.Bottom
-    ){
-        ElevatedButton(
-            enabled = true,
-            shape = CircleShape,
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(24.dp),
-            onClick = {
-                navigateToConfirmationScreen()
-                lunchiliciousViewModel.updateButtonText()
+            ElevatedButton(
+                enabled = true,
+                shape = CircleShape,
+                modifier = modifier
+                    .fillMaxWidth()
+                    .padding(24.dp),
+                onClick = {
+                    navigateToConfirmationScreen()
+                    lunchiliciousViewModel.updateButtonText()
+                }
+            ) {
+                Text(text = lunchiliciousViewModel.buttonText)
             }
-        ) {
-            Text(text = lunchiliciousViewModel.buttonText)
         }
     }
 }
