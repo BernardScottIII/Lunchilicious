@@ -1,4 +1,4 @@
-package com.example.lunchilicious
+package com.scottb4.lunchilicious
 
 import org.junit.Test
 

@@ -1,4 +1,4 @@
-package com.example.lunchilicious
+package com.scottb4.lunchilicious
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -7,7 +7,6 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -32,7 +31,7 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.lunchilicious.ui.theme.LunchiliciousTheme
+import com.scottb4.lunchilicious.ui.theme.LunchiliciousTheme
 
 data class MenuItem(
     val id: Int,
@@ -192,7 +191,7 @@ fun StatelessMenuItem(
         modifier = modifier
     )
     Text(
-        text = "name = ${menuItem.name}",
+        text = menuItem.name,
         modifier = modifier
     )
     Text(

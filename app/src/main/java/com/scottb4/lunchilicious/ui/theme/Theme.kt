@@ -1,4 +1,4 @@
-package com.example.lunchilicious.ui.theme
+package com.scottb4.lunchilicious.ui.theme
 
 import android.app.Activity
 import android.os.Build

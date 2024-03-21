@@ -1,4 +1,4 @@
-package com.example.lunchilicious
+package com.scottb4.lunchilicious
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
