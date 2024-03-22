@@ -1,4 +1,4 @@
-package com.scottb4.lunchilicious
+package com.scottb4.lunchilicious.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.scottb4.lunchilicious.Repository
 
 @Composable
 fun OrderScreen (

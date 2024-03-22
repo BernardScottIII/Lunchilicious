@@ -1,0 +1,39 @@
+package com.scottb4.lunchilicious.ui
+
+import androidx.compose.runtime.Composable
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.scottb4.lunchilicious.ConfirmationScreen
+
+object LunchiliciousScreen {
+    const val OrderScreen = "OrderScreen"
+    const val ConfirmationScreen = "ConfirmationScreen"
+}
+
+@Composable
+fun AppNavigator(lunchiliciousViewModel: LunchiliciousViewModel = LunchiliciousViewModel()) {
+    val navController = rememberNavController()
+
+    NavHost(
+        navController = navController,
+        startDestination = LunchiliciousScreen.OrderScreen
+    ) {
+        composable(LunchiliciousScreen.OrderScreen) {
+            OrderScreen(
+                lunchiliciousViewModel = lunchiliciousViewModel,
+                navigateToConfirmationScreen = {
+                    navController.navigate(LunchiliciousScreen.ConfirmationScreen)
+                }
+            )
+        }
+        composable(LunchiliciousScreen.ConfirmationScreen) {
+            ConfirmationScreen(
+                lunchiliciousViewModel = lunchiliciousViewModel,
+                navigateToConfirmationScreen = {
+                    navController.popBackStack()
+                }
+            )
+        }
+    }
+}

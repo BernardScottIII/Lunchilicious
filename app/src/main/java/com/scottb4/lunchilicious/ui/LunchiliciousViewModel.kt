@@ -1,4 +1,4 @@
-package com.scottb4.lunchilicious
+package com.scottb4.lunchilicious.ui
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
+import com.scottb4.lunchilicious.Repository
 
 
 class LunchiliciousViewModel: ViewModel() {

@@ -1,8 +1,9 @@
-package com.scottb4.lunchilicious
+package com.scottb4.lunchilicious.ui
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.scottb4.lunchilicious.MenuItem
 import java.text.NumberFormat
 
 @Composable
