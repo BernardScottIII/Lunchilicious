@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -44,6 +45,27 @@ fun OrderScreen (
                         .fillMaxWidth()
                         .background(Color(0xFF442359))
                 )
+                Row {
+                    Text(
+                        modifier = modifier
+                            .weight(1F),
+                        text = if (lunchiliciousViewModel.detailsValueList[menuItem.id-1]) {
+                            "Hide Details"
+                        } else {
+                            "Show Details"
+                        }
+                    )
+                    Switch (
+                        checked = lunchiliciousViewModel.detailsValueList[menuItem.id-1],
+                        onCheckedChange = {
+                            lunchiliciousViewModel.detailsValueList[menuItem.id - 1] =
+                                !lunchiliciousViewModel.detailsValueList[menuItem.id - 1]
+                        }
+                    )
+                }
+                if (lunchiliciousViewModel.detailsValueList[menuItem.id-1]) {
+                    Text(text = menuItem.description)
+                }
                 Checkbox(
                     checked = lunchiliciousViewModel.checkboxValueList[menuItem.id-1],
                     onCheckedChange = {
