@@ -64,10 +64,9 @@ fun OrderScreen (
                 .padding(24.dp),
             onClick = {
                 navigateToConfirmationScreen()
-                lunchiliciousViewModel.updateButtonText()
             }
         ) {
-            Text(text = lunchiliciousViewModel.buttonText)
+            Text(text = "Place Order")
         }
     }
 }

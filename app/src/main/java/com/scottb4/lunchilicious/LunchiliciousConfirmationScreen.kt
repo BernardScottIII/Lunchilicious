@@ -18,7 +18,7 @@ import java.text.NumberFormat
 
 @Composable
 fun ConfirmationScreen (
-    navigateToConfirmationScreen: () -> Unit,
+    navigateToOrderScreen: () -> Unit,
     modifier: Modifier = Modifier,
     lunchiliciousViewModel: LunchiliciousViewModel = LunchiliciousViewModel()
 ) {
@@ -59,11 +59,10 @@ fun ConfirmationScreen (
                     .fillMaxWidth()
                     .padding(24.dp),
                 onClick = {
-                    navigateToConfirmationScreen()
-                    lunchiliciousViewModel.updateButtonText()
+                    navigateToOrderScreen()
                 }
             ) {
-                Text(text = lunchiliciousViewModel.buttonText)
+                Text(text = "Continue Shopping")
             }
         }
     }

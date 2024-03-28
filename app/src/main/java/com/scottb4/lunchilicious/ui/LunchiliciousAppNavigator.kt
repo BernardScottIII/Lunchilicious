@@ -30,7 +30,7 @@ fun AppNavigator(lunchiliciousViewModel: LunchiliciousViewModel = LunchiliciousV
         composable(LunchiliciousScreen.ConfirmationScreen) {
             ConfirmationScreen(
                 lunchiliciousViewModel = lunchiliciousViewModel,
-                navigateToConfirmationScreen = {
+                navigateToOrderScreen = {
                     navController.popBackStack()
                 }
             )
