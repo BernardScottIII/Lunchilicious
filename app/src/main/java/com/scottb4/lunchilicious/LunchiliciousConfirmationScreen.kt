@@ -57,12 +57,39 @@ fun ConfirmationScreen (
                 shape = CircleShape,
                 modifier = modifier
                     .fillMaxWidth()
-                    .padding(24.dp),
+                    .padding(
+                        start = 24.dp,
+                        top = 6.dp,
+                        end = 24.dp,
+                        bottom = 6.dp
+                    ),
                 onClick = {
                     navigateToOrderScreen()
                 }
             ) {
                 Text(text = "Continue Shopping")
+            }
+        }
+        Row (
+            verticalAlignment = Alignment.Bottom
+        ){
+            ElevatedButton(
+                enabled = true,
+                shape = CircleShape,
+                modifier = modifier
+                    .fillMaxWidth()
+                    .padding(
+                        start = 24.dp,
+                        top = 6.dp,
+                        end = 24.dp,
+                        bottom = 24.dp
+                    ),
+                onClick = {
+                    // TODO Save shopping cart to Room Database
+                    navigateToOrderScreen()
+                }
+            ) {
+                Text(text = "Checkout")
             }
         }
     }

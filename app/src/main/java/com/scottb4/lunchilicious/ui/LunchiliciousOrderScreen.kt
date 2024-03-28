@@ -88,7 +88,7 @@ fun OrderScreen (
                 navigateToConfirmationScreen()
             }
         ) {
-            Text(text = "Place Order")
+            Text(text = "View Cart")
         }
     }
 }
