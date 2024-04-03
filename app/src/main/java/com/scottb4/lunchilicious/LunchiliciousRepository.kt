@@ -17,4 +17,9 @@ class Repository {
     )
 
     fun getItems(): Array<MenuItem> { return items }
+
+    companion object {
+        fun getItems(repo: Repository = Repository()): Array<MenuItem> =
+            repo.getItems()
+    }
 }

@@ -10,10 +10,9 @@ class LunchiliciousViewModel: ViewModel() {
     // Create a mutableStateListOf() with x number of false values, not 10
     private var _checkboxValueList = mutableStateListOf<Boolean>()
     private var _detailsValueList = mutableStateListOf<Boolean>()
+    private val length = Repository().getItems().size
 
     private fun createCheckboxValueList(): SnapshotStateList<Boolean> {
-        val length = Repository().getItems().size
-
         for (i in 0..length) {
             _checkboxValueList.add(false)
         }
@@ -22,8 +21,6 @@ class LunchiliciousViewModel: ViewModel() {
     }
 
     private fun createDetailsValueList(): SnapshotStateList<Boolean> {
-        val length = Repository().getItems().size
-
         for (i in 0..length) {
             _detailsValueList.add(false)
         }
