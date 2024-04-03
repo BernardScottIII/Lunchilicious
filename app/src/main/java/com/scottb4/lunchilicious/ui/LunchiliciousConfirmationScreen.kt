@@ -1,4 +1,4 @@
-package com.scottb4.lunchilicious
+package com.scottb4.lunchilicious.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.scottb4.lunchilicious.ui.LunchiliciousViewModel
+import com.scottb4.lunchilicious.Repository
 import java.text.NumberFormat
 
 @Composable
@@ -37,8 +37,8 @@ fun ConfirmationScreen (
             item { Text(text = "Order Summary") }
             menu.forEach { menuItem ->
                 if (lunchiliciousViewModel.checkboxValueList[menuItem.id-1]) {
-                    item { Text(text = "${menuItem.name} => 1 x ${NumberFormat.getCurrencyInstance().format(menuItem.price)}") }
-                    orderTotal += menuItem.price
+                    item { Text(text = "${menuItem.name} => 1 x ${NumberFormat.getCurrencyInstance().format(menuItem.unit_price)}") }
+                    orderTotal += menuItem.unit_price
                 }
             }
         }

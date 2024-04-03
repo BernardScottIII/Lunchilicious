@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.scottb4.lunchilicious.ConfirmationScreen
 
 object LunchiliciousScreen {
     const val OrderScreen = "OrderScreen"

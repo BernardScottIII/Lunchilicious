@@ -7,14 +7,9 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import com.scottb4.lunchilicious.ui.AppNavigator
 import com.scottb4.lunchilicious.ui.LunchiliciousViewModel
-import com.scottb4.lunchilicious.ui.OrderScreen
 import com.scottb4.lunchilicious.ui.theme.LunchiliciousTheme
 
 class MainActivity : ComponentActivity() {
@@ -29,6 +24,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     AppNavigator(lunchiliciousViewModel)
+                    DatabaseListView()
                 }
             }
         }

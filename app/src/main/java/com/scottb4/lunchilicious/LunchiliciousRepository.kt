@@ -1,6 +1,6 @@
 package com.scottb4.lunchilicious
 
-import com.scottb4.lunchilicious.MenuItem
+import com.scottb4.lunchilicious.data.MenuItem
 
 class Repository {
     private val items: Array<MenuItem> = arrayOf(
