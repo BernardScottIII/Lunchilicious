@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 interface MenuItemRepository {
     fun getAllMenuItemsStream(): Flow<List<MenuItem>>
     fun getMenuItemStream(id: Int): Flow<MenuItem?>
-    suspend fun insertMenuItem(menuItem: MenuItem)
+    suspend fun insertMenuItem(menuItem: MenuItem): Long
     suspend fun deleteMenuItem(menuItem: MenuItem)
     suspend fun updateMenuItem(menuItem: MenuItem)
 }

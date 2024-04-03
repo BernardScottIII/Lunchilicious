@@ -18,10 +18,12 @@ import androidx.room.PrimaryKey
             parentColumns = ["id"],
             childColumns = ["item_id"]
         )
+    ],
+    primaryKeys = [
+        "o_id", "line_no"
     ]
 )
 data class LineItem (
-    @PrimaryKey(autoGenerate = true)
     val line_no: Int = 0,
     @ColumnInfo(name = "o_id", index = true)
     val o_id: Int,

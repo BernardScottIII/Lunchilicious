@@ -1,7 +1,9 @@
 package com.scottb4.lunchilicious.ui
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -12,19 +14,23 @@ import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.scottb4.lunchilicious.Repository
 
 @Composable
 fun OrderScreen (
     navigateToConfirmationScreen: () -> Unit,
     modifier: Modifier = Modifier,
-    lunchiliciousViewModel: LunchiliciousViewModel = LunchiliciousViewModel()
+    lunchiliciousViewModel: LunchiliciousViewModel = LunchiliciousViewModel(),
+    vm: MenuItemViewModel = viewModel(factory = MenuItemViewModel.Factory)
 ) {
-    val menu = Repository().getItems()
+    val menu by vm.getAllMenuItems().collectAsState(initial = emptyList())
 
     LazyColumn (
         modifier = modifier
@@ -35,15 +41,17 @@ fun OrderScreen (
                 end = 0.dp,
                 bottom = 72.dp
             ),
-        verticalArrangement = Arrangement.spacedBy(6.dp)
+        verticalArrangement = Arrangement.spacedBy(6.dp),
+        contentPadding = PaddingValues(6.dp)
     ) {
         menu.forEach { menuItem ->
+            //Log.i("MI", "Displaying menuItem #${menuItem.id}")
             item {
                 StatelessMenuItem(
                     menuItem = menuItem,
                     modifier = modifier
                         .fillMaxWidth()
-                        .background(Color(0xFF442359))
+                        .background(Color(0xFF808080))
                 )
                 Row {
                     Text(

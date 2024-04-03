@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface MenuItemDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(menuItem: MenuItem)
+    suspend fun insert(menuItem: MenuItem): Long
 
     @Update
     suspend fun update(menuItem: MenuItem)

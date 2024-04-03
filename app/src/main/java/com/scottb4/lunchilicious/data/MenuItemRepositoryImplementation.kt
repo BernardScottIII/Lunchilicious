@@ -10,7 +10,7 @@ class MenuItemRepositoryImplementation (private val menuItemDb: LunchiliciousDat
     override fun getMenuItemStream(id: Int): Flow<MenuItem?> =
         menuItemDb.menuItemDao().getMenuItem(id)
 
-    override suspend fun insertMenuItem(menuItem: MenuItem) =
+    override suspend fun insertMenuItem(menuItem: MenuItem): Long =
         menuItemDb.menuItemDao().insert(menuItem)
 
     override suspend fun deleteMenuItem(menuItem: MenuItem) =
