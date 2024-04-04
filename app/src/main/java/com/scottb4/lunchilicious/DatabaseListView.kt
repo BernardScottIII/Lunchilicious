@@ -23,7 +23,7 @@ fun DatabaseListView(vm: MenuItemViewModel = viewModel(factory = MenuItemViewMod
     Column {
         Button (
             onClick = {
-                //vm.createMenuItems()
+                vm.createMenuItems()
             }
         ) {
             Text(text = "Add MenuItems")

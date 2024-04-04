@@ -13,7 +13,8 @@ object LunchiliciousScreen {
 
 @Composable
 fun AppNavigator(
-    lunchiliciousViewModel: LunchiliciousViewModel = LunchiliciousViewModel()
+    lunchiliciousViewModel: LunchiliciousViewModel = LunchiliciousViewModel(),
+    menuItemViewModel: MenuItemViewModel = viewModel(factory = MenuItemViewModel.Factory)
 ) {
     val navController = rememberNavController()
 
@@ -24,6 +25,7 @@ fun AppNavigator(
         composable(LunchiliciousScreen.OrderScreen) {
             OrderScreen(
                 lunchiliciousViewModel = lunchiliciousViewModel,
+                menuItemViewModel = menuItemViewModel,
                 navigateToConfirmationScreen = {
                     navController.navigate(LunchiliciousScreen.ConfirmationScreen)
                 }

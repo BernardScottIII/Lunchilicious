@@ -22,6 +22,10 @@ interface MenuItemDao {
     @Query("Delete from menu_item")
     suspend fun deleteAll()
 
+    // https://medium.com/@sdevpremthakur/how-to-reset-room-db-completely-including-primary-keys-android-6382f00df87b
+    @Query("DELETE FROM sqlite_sequence WHERE name = 'menu_item'")
+    suspend fun deletePrimaryKeyIndex()
+
     @Query("SELECT * from menu_item WHERE id = :id")
     fun getMenuItem(id: Int): Flow<MenuItem>
 

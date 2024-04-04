@@ -1,5 +1,6 @@
 package com.scottb4.lunchilicious.ui
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
@@ -11,6 +12,7 @@ class LunchiliciousViewModel: ViewModel() {
     private var _checkboxValueList = mutableStateListOf<Boolean>()
     private var _detailsValueList = mutableStateListOf<Boolean>()
     private val length = Repository().getItems().size
+
 
     private fun createCheckboxValueList(): SnapshotStateList<Boolean> {
         for (i in 0..length) {

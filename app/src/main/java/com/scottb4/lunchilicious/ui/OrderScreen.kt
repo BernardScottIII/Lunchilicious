@@ -21,16 +21,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.scottb4.lunchilicious.Repository
+import androidx.compose.foundation.lazy.items
 
 @Composable
 fun OrderScreen (
     navigateToConfirmationScreen: () -> Unit,
     modifier: Modifier = Modifier,
     lunchiliciousViewModel: LunchiliciousViewModel = LunchiliciousViewModel(),
-    vm: MenuItemViewModel = viewModel(factory = MenuItemViewModel.Factory)
+    menuItemViewModel: MenuItemViewModel = viewModel(factory = MenuItemViewModel.Factory)
 ) {
-    val menu by vm.getAllMenuItems().collectAsState(initial = emptyList())
+    val menu by menuItemViewModel.getAllMenuItems().collectAsState(initial = emptyList())
 
     LazyColumn (
         modifier = modifier
@@ -44,44 +44,48 @@ fun OrderScreen (
         verticalArrangement = Arrangement.spacedBy(6.dp),
         contentPadding = PaddingValues(6.dp)
     ) {
-        menu.forEach { menuItem ->
-            //Log.i("MI", "Displaying menuItem #${menuItem.id}")
-            item {
-                StatelessMenuItem(
-                    menuItem = menuItem,
+        items (menu) { menuItem ->
+            Log.i("MENU", "Displaying menuItem #${menuItem.id.toInt()}")
+            StatelessMenuItem(
+                menuItem = menuItem,
+                modifier = modifier
+                    .fillMaxWidth()
+                    .background(Color(0xFF808080))
+            )
+            Row {
+                Text(
                     modifier = modifier
-                        .fillMaxWidth()
-                        .background(Color(0xFF808080))
+                        .weight(1F),
+                    text = if (lunchiliciousViewModel.detailsValueList[menuItem.id.toInt()-1]) {
+                        "Hide Details"
+                    } else {
+                        "Show Details"
+                    }
                 )
-                Row {
-                    Text(
-                        modifier = modifier
-                            .weight(1F),
-                        text = if (lunchiliciousViewModel.detailsValueList[menuItem.id-1]) {
-                            "Hide Details"
-                        } else {
-                            "Show Details"
-                        }
-                    )
-                    Switch (
-                        checked = lunchiliciousViewModel.detailsValueList[menuItem.id-1],
-                        onCheckedChange = {
-                            lunchiliciousViewModel.detailsValueList[menuItem.id - 1] =
-                                !lunchiliciousViewModel.detailsValueList[menuItem.id - 1]
-                        }
-                    )
-                }
-                if (lunchiliciousViewModel.detailsValueList[menuItem.id-1]) {
-                    Text(text = menuItem.description)
-                }
-                Checkbox(
-                    checked = lunchiliciousViewModel.checkboxValueList[menuItem.id-1],
+                Switch (
+                    checked = lunchiliciousViewModel.detailsValueList[menuItem.id.toInt()-1],
                     onCheckedChange = {
-                        lunchiliciousViewModel.checkboxValueList[menuItem.id-1] = !lunchiliciousViewModel.checkboxValueList[menuItem.id-1]
+                        lunchiliciousViewModel.detailsValueList[menuItem.id.toInt() - 1] =
+                            !lunchiliciousViewModel.detailsValueList[menuItem.id.toInt() - 1]
                     }
                 )
             }
+            if (lunchiliciousViewModel.detailsValueList[menuItem.id.toInt()-1]) {
+                Text(text = menuItem.description)
+            }
+            Checkbox(
+                checked = lunchiliciousViewModel.checkboxValueList[menuItem.id.toInt()-1],
+                onCheckedChange = {
+                    lunchiliciousViewModel.checkboxValueList[menuItem.id.toInt()-1] = !lunchiliciousViewModel.checkboxValueList[menuItem.id.toInt()-1]
+                }
+            )
         }
+//        menu.forEach { menuItem ->
+//
+//            item {
+//
+//            }
+//        }
     }
     Row (
         verticalAlignment = Alignment.Bottom

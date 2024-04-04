@@ -10,12 +10,20 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.scottb4.lunchilicious.ui.AppNavigator
 import com.scottb4.lunchilicious.ui.LunchiliciousViewModel
+import com.scottb4.lunchilicious.ui.MenuItemViewModel
 import com.scottb4.lunchilicious.ui.theme.LunchiliciousTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         val lunchiliciousViewModel: LunchiliciousViewModel by viewModels()
+        val menuItemViewModel: MenuItemViewModel by viewModels(
+            factoryProducer = {
+                MenuItemViewModel.Factory
+            }
+        )
+
         setContent {
             LunchiliciousTheme {
                 // A surface container using the 'background' color from the theme
@@ -23,7 +31,10 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    AppNavigator(lunchiliciousViewModel)
+                    AppNavigator(
+                        lunchiliciousViewModel = lunchiliciousViewModel,
+                        menuItemViewModel = menuItemViewModel
+                    )
                     //DatabaseListView()
                 }
             }

@@ -10,9 +10,12 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.scottb4.lunchilicious.Repository
 import java.text.NumberFormat
 
@@ -20,9 +23,10 @@ import java.text.NumberFormat
 fun ConfirmationScreen (
     navigateToOrderScreen: () -> Unit,
     modifier: Modifier = Modifier,
-    lunchiliciousViewModel: LunchiliciousViewModel = LunchiliciousViewModel()
+    lunchiliciousViewModel: LunchiliciousViewModel = LunchiliciousViewModel(),
+    vm: MenuItemViewModel = viewModel(factory = MenuItemViewModel.Factory)
 ) {
-    val menu = Repository().getItems()
+    val menu by vm.getAllMenuItems().collectAsState(initial = emptyList())
     var orderTotal = 0.0
 
     Column (
@@ -36,7 +40,7 @@ fun ConfirmationScreen (
         ) {
             item { Text(text = "Order Summary") }
             menu.forEach { menuItem ->
-                if (lunchiliciousViewModel.checkboxValueList[menuItem.id-1]) {
+                if (lunchiliciousViewModel.checkboxValueList[menuItem.id.toInt()-1]) {
                     item { Text(text = "${menuItem.name} => 1 x ${NumberFormat.getCurrencyInstance().format(menuItem.unit_price)}") }
                     orderTotal += menuItem.unit_price
                 }
