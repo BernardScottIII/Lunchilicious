@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface FoodOrderDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(foodOrder: FoodOrder)
+    suspend fun insert(foodOrder: FoodOrder): Long
 
     @Update
     suspend fun update(foodOrder: FoodOrder)
@@ -21,6 +21,10 @@ interface FoodOrderDao {
 
     @Query("Delete from food_order")
     suspend fun deleteAll()
+
+    // https://medium.com/@sdevpremthakur/how-to-reset-room-db-completely-including-primary-keys-android-6382f00df87b
+    @Query("DELETE FROM sqlite_sequence WHERE name = 'food_order'")
+    suspend fun deletePrimaryKeyIndex()
 
     @Query("SELECT * from food_order WHERE id = :id")
     fun getFoodOrder(id: Int): Flow<FoodOrder>

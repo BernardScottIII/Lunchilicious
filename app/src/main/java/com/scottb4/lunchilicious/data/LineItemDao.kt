@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface LineItemDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(lineItem: LineItem)
+    suspend fun insert(lineItem: LineItem): Long
 
     @Update
     suspend fun update(lineItem: LineItem)
@@ -21,6 +21,10 @@ interface LineItemDao {
 
     @Query("Delete from line_item")
     suspend fun deleteAll()
+
+    // https://medium.com/@sdevpremthakur/how-to-reset-room-db-completely-including-primary-keys-android-6382f00df87b
+    @Query("DELETE FROM sqlite_sequence WHERE name = 'line_item'")
+    suspend fun deletePrimaryKeyIndex()
 
     @Query("SELECT * from line_item WHERE line_no = :line_no")
     fun getLineItem(line_no: Int): Flow<LineItem>

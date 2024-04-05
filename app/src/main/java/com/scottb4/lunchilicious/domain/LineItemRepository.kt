@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 interface LineItemRepository {
     fun getAllLineItemsStream(): Flow<List<LineItem>>
     fun getLineItemStream(id: Int): Flow<LineItem?>
-    suspend fun insertLineItem(lineItem: LineItem)
+    suspend fun insertLineItem(lineItem: LineItem): Long
     suspend fun deleteLineItem(lineItem: LineItem)
     suspend fun updateLineItem(lineItem: LineItem)
 }

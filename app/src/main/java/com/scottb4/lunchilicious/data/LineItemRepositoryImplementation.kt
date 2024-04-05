@@ -10,7 +10,7 @@ class LineItemRepositoryImplementation(private val lineItemDb: LunchiliciousData
     override fun getLineItemStream(id: Int): Flow<LineItem?> =
         lineItemDb.lineItemDao().getLineItem(id)
 
-    override suspend fun insertLineItem(lineItem: LineItem) =
+    override suspend fun insertLineItem(lineItem: LineItem): Long =
         lineItemDb.lineItemDao().insert(lineItem)
 
     override suspend fun deleteLineItem(lineItem: LineItem) =

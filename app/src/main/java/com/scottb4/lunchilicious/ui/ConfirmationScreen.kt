@@ -16,17 +16,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.scottb4.lunchilicious.Repository
 import java.text.NumberFormat
+import androidx.compose.foundation.lazy.items
+import com.scottb4.lunchilicious.data.MenuItem
 
 @Composable
 fun ConfirmationScreen (
     navigateToOrderScreen: () -> Unit,
     modifier: Modifier = Modifier,
     lunchiliciousViewModel: LunchiliciousViewModel = LunchiliciousViewModel(),
-    vm: MenuItemViewModel = viewModel(factory = MenuItemViewModel.Factory)
+    menuItemViewModel: MenuItemViewModel = viewModel(factory = MenuItemViewModel.Factory),
+    lineItemViewModel: LineItemViewModel = viewModel(factory = LineItemViewModel.Factory),
+    foodOrderViewModel: FoodOrderViewModel = viewModel(factory = FoodOrderViewModel.Factory)
 ) {
-    val menu by vm.getAllMenuItems().collectAsState(initial = emptyList())
+    val menu by menuItemViewModel.getAllMenuItems().collectAsState(initial = emptyList())
+    var candidateLineItems: Array<MenuItem> = emptyArray<MenuItem>()
     var orderTotal = 0.0
 
     Column (
@@ -41,10 +45,20 @@ fun ConfirmationScreen (
             item { Text(text = "Order Summary") }
             menu.forEach { menuItem ->
                 if (lunchiliciousViewModel.checkboxValueList[menuItem.id.toInt()-1]) {
-                    item { Text(text = "${menuItem.name} => 1 x ${NumberFormat.getCurrencyInstance().format(menuItem.unit_price)}") }
+                    item {
+                        Text(text = "${menuItem.name} => 1 x ${NumberFormat.getCurrencyInstance().format(menuItem.unit_price)}")
+                    }
+                    candidateLineItems.plus(menuItem)
                     orderTotal += menuItem.unit_price
                 }
             }
+//            items (menu) { menuItem ->
+//                if (lunchiliciousViewModel.checkboxValueList[menuItem.id.toInt()-1]) {
+//                    Text(text = "${menuItem.name} => 1 x ${NumberFormat.getCurrencyInstance().format(menuItem.unit_price)}")
+//                    candidateLineItems.plus(menuItem)
+//                    orderTotal += menuItem.unit_price
+//                }
+//            }
         }
         Row (
             modifier = modifier
@@ -90,6 +104,8 @@ fun ConfirmationScreen (
                     ),
                 onClick = {
                     // TODO Save shopping cart to Room Database
+                    val o_id: Long = foodOrderViewModel.createNewFoodOrder(orderTotal)
+                    lineItemViewModel.putAllLineItems(candidateLineItems, o_id)
                     navigateToOrderScreen()
                 }
             ) {

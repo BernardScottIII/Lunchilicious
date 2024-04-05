@@ -9,6 +9,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.scottb4.lunchilicious.ui.AppNavigator
+import com.scottb4.lunchilicious.ui.FoodOrderViewModel
+import com.scottb4.lunchilicious.ui.LineItemViewModel
 import com.scottb4.lunchilicious.ui.LunchiliciousViewModel
 import com.scottb4.lunchilicious.ui.MenuItemViewModel
 import com.scottb4.lunchilicious.ui.theme.LunchiliciousTheme
@@ -23,6 +25,16 @@ class MainActivity : ComponentActivity() {
                 MenuItemViewModel.Factory
             }
         )
+        val lineItemViewModel: LineItemViewModel by viewModels(
+            factoryProducer = {
+                LineItemViewModel.Factory
+            }
+        )
+        val foodOrderViewModel: FoodOrderViewModel by viewModels(
+            factoryProducer = {
+                FoodOrderViewModel.Factory
+            }
+        )
 
         setContent {
             LunchiliciousTheme {
@@ -33,7 +45,9 @@ class MainActivity : ComponentActivity() {
                 ) {
                     AppNavigator(
                         lunchiliciousViewModel = lunchiliciousViewModel,
-                        menuItemViewModel = menuItemViewModel
+                        menuItemViewModel = menuItemViewModel,
+                        lineItemViewModel = lineItemViewModel,
+                        foodOrderViewModel = foodOrderViewModel
                     )
                     //DatabaseListView()
                 }

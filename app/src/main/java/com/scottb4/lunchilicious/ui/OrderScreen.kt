@@ -28,7 +28,9 @@ fun OrderScreen (
     navigateToConfirmationScreen: () -> Unit,
     modifier: Modifier = Modifier,
     lunchiliciousViewModel: LunchiliciousViewModel = LunchiliciousViewModel(),
-    menuItemViewModel: MenuItemViewModel = viewModel(factory = MenuItemViewModel.Factory)
+    menuItemViewModel: MenuItemViewModel = viewModel(factory = MenuItemViewModel.Factory),
+    lineItemViewModel: LineItemViewModel = viewModel(factory = LineItemViewModel.Factory),
+    foodOrderViewModel: FoodOrderViewModel = viewModel(factory = FoodOrderViewModel.Factory)
 ) {
     val menu by menuItemViewModel.getAllMenuItems().collectAsState(initial = emptyList())
 
@@ -80,12 +82,6 @@ fun OrderScreen (
                 }
             )
         }
-//        menu.forEach { menuItem ->
-//
-//            item {
-//
-//            }
-//        }
     }
     Row (
         verticalAlignment = Alignment.Bottom
@@ -98,6 +94,7 @@ fun OrderScreen (
                 .padding(24.dp),
             onClick = {
                 navigateToConfirmationScreen()
+
             }
         ) {
             Text(text = "View Cart")

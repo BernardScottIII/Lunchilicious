@@ -8,22 +8,21 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.scottb4.lunchilicious.LunchiliciousApplication
 import com.scottb4.lunchilicious.data.FoodOrder
 import com.scottb4.lunchilicious.domain.FoodOrderRepository
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 class FoodOrderViewModel (
     private val foodOrderRepository: FoodOrderRepository
 ): ViewModel() {
-    fun createFoodOrders() {
+    fun createNewFoodOrder(totalCost: Double): Long {
+        var result: Long = 0L
         viewModelScope.launch {
-            (0..3).forEach{ _ ->
-                val foodOrder = FoodOrder(
-                    id = (0..100).random(),
-                    total_cost = 1234.45
-                )
-                foodOrderRepository.insertFoodOrder(foodOrder)
-            }
+            result = foodOrderRepository.insertFoodOrder(
+                FoodOrder(total_cost = totalCost)
+            )
         }
+        return result
     }
 
     fun getAllFoodOrders(): Flow<List<FoodOrder>> {

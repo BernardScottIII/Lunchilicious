@@ -10,7 +10,7 @@ class FoodOrderRepositoryImplementation (private val foodOrderDb: LunchiliciousD
     override fun getFoodOrderStream(id: Int): Flow<FoodOrder?> =
         foodOrderDb.foodOrderDao().getFoodOrder(id)
 
-    override suspend fun insertFoodOrder(foodOrder: FoodOrder) =
+    override suspend fun insertFoodOrder(foodOrder: FoodOrder): Long =
         foodOrderDb.foodOrderDao().insert(foodOrder)
 
     override suspend fun deleteFoodOrder(foodOrder: FoodOrder) =

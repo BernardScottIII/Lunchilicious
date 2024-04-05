@@ -24,9 +24,9 @@ import androidx.room.PrimaryKey
     ]
 )
 data class LineItem (
-    val line_no: Int = 0,
+    val line_no: Long = 0,
     @ColumnInfo(name = "o_id", index = true)
-    val o_id: Int,
+    val o_id: Long,
     @ColumnInfo(name = "item_id", index = true)
-    val item_id: Int,
+    val item_id: Long,
 )

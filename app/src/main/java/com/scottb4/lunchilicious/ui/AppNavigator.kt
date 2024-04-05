@@ -14,7 +14,9 @@ object LunchiliciousScreen {
 @Composable
 fun AppNavigator(
     lunchiliciousViewModel: LunchiliciousViewModel = LunchiliciousViewModel(),
-    menuItemViewModel: MenuItemViewModel = viewModel(factory = MenuItemViewModel.Factory)
+    menuItemViewModel: MenuItemViewModel = viewModel(factory = MenuItemViewModel.Factory),
+    lineItemViewModel: LineItemViewModel = viewModel(factory = LineItemViewModel.Factory),
+    foodOrderViewModel: FoodOrderViewModel = viewModel(factory = FoodOrderViewModel.Factory)
 ) {
     val navController = rememberNavController()
 
@@ -34,6 +36,9 @@ fun AppNavigator(
         composable(LunchiliciousScreen.ConfirmationScreen) {
             ConfirmationScreen(
                 lunchiliciousViewModel = lunchiliciousViewModel,
+                menuItemViewModel = menuItemViewModel,
+                lineItemViewModel = lineItemViewModel,
+                foodOrderViewModel = foodOrderViewModel,
                 navigateToOrderScreen = {
                     navController.popBackStack()
                 }
