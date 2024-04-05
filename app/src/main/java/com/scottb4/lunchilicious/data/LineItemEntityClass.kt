@@ -7,6 +7,9 @@ import androidx.room.PrimaryKey
 
 @Entity(
     tableName = "line_item",
+    primaryKeys = [
+        "line_no", "o_id"
+    ],
     foreignKeys = [
         ForeignKey(
             entity = FoodOrder::class,
@@ -18,12 +21,11 @@ import androidx.room.PrimaryKey
             parentColumns = ["id"],
             childColumns = ["item_id"]
         )
-    ],
-    primaryKeys = [
-        "o_id", "line_no"
     ]
 )
 data class LineItem (
+    // TODO: Auto-Generate one attribute of this composite key
+    @ColumnInfo(name = "line_no")
     val line_no: Long = 0,
     @ColumnInfo(name = "o_id", index = true)
     val o_id: Long,

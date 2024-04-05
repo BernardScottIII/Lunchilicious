@@ -6,13 +6,14 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.scottb4.lunchilicious.Repository
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 @Database(
     entities = [MenuItem::class, FoodOrder::class, LineItem::class],
-    version = 10,
+    version = 19,
     exportSchema = false
 )
 abstract class LunchiliciousDatabase : RoomDatabase() {
