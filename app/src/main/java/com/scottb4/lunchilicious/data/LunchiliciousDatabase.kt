@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 
 @Database(
     entities = [MenuItem::class, FoodOrder::class, LineItem::class],
-    version = 19,
+    version = 18,
     exportSchema = false
 )
 abstract class LunchiliciousDatabase : RoomDatabase() {

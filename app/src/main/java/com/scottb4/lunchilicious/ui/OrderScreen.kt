@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.foundation.lazy.items
+import androidx.compose.ui.text.style.TextAlign
 
 @Composable
 fun OrderScreen (
@@ -53,14 +54,23 @@ fun OrderScreen (
                     .background(Color(0xFF808080))
             )
             Row {
+                Checkbox(
+                    checked = lunchiliciousViewModel.checkboxValueList[menuItem.id.toInt()-1],
+                    onCheckedChange = {
+                        lunchiliciousViewModel.checkboxValueList[menuItem.id.toInt()-1] = !lunchiliciousViewModel.checkboxValueList[menuItem.id.toInt()-1]
+                    }
+                )
                 Text(
-                    modifier = modifier
-                        .weight(1F),
                     text = if (lunchiliciousViewModel.detailsValueList[menuItem.id.toInt()-1]) {
                         "Hide Details"
                     } else {
                         "Show Details"
-                    }
+                    },
+                    textAlign = TextAlign.End,
+                    modifier = modifier
+                        .weight(1F)
+                        .align(Alignment.CenterVertically)
+                        .padding(end = 6.dp),
                 )
                 Switch (
                     checked = lunchiliciousViewModel.detailsValueList[menuItem.id.toInt()-1],
@@ -71,14 +81,13 @@ fun OrderScreen (
                 )
             }
             if (lunchiliciousViewModel.detailsValueList[menuItem.id.toInt()-1]) {
-                Text(text = menuItem.description)
+                Text(
+                    text = menuItem.description,
+                    modifier = modifier
+                        .padding(bottom = 6.dp)
+                )
             }
-            Checkbox(
-                checked = lunchiliciousViewModel.checkboxValueList[menuItem.id.toInt()-1],
-                onCheckedChange = {
-                    lunchiliciousViewModel.checkboxValueList[menuItem.id.toInt()-1] = !lunchiliciousViewModel.checkboxValueList[menuItem.id.toInt()-1]
-                }
-            )
+
         }
     }
     Row (
