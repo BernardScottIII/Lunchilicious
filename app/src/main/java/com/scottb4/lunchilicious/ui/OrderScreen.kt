@@ -1,12 +1,16 @@
 package com.scottb4.lunchilicious.ui
 
 import android.util.Log
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Checkbox
@@ -22,7 +26,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.foundation.lazy.items
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import com.scottb4.lunchilicious.R
 
 @Composable
 fun OrderScreen (
@@ -32,6 +38,20 @@ fun OrderScreen (
     menuItemViewModel: MenuItemViewModel = viewModel(factory = MenuItemViewModel.Factory)
 ) {
     val menu by menuItemViewModel.getAllMenuItems().collectAsState(initial = emptyList())
+
+
+//    val menuItemImages = listOf(
+//        R.drawable.menuItem1,
+//        R.drawable.menuitem2,
+//        R.drawable.menuItem3,
+//        R.drawable.menuItem4,
+//        R.drawable.menuItem5,
+//        R.drawable.menuItem6,
+//        R.drawable.menuItem7,
+//        R.drawable.menuItem8,
+//        R.drawable.menuItem9,
+//        R.drawable.menuItem10,
+//    )
 
     LazyColumn (
         modifier = modifier
@@ -46,12 +66,10 @@ fun OrderScreen (
         contentPadding = PaddingValues(6.dp)
     ) {
         items (menu) { menuItem ->
-            Log.i("MENU", "Displaying menuItem #${menuItem.id.toInt()}")
             StatelessMenuItem(
                 menuItem = menuItem,
                 modifier = modifier
-                    .fillMaxWidth()
-                    .background(Color(0xFF808080))
+                    .background(Color(0xFFbac4f5))
             )
             Row {
                 Checkbox(
