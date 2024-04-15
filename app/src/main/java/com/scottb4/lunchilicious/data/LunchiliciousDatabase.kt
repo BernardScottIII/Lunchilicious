@@ -64,14 +64,14 @@ abstract class LunchiliciousDatabase : RoomDatabase() {
             foodOrderDao: FoodOrderDao,
             lineItemDao: LineItemDao
         ) {
-            menuItemDao.deleteAll()
-            menuItemDao.deletePrimaryKeyIndex()
+            lineItemDao.deleteAll()
+            lineItemDao.deletePrimaryKeyIndex()
 
             foodOrderDao.deleteAll()
             foodOrderDao.deletePrimaryKeyIndex()
 
-            lineItemDao.deleteAll()
-            lineItemDao.deletePrimaryKeyIndex()
+            menuItemDao.deleteAll()
+            menuItemDao.deletePrimaryKeyIndex()
 
             items.forEach { item ->
                 menuItemDao.insert(item)
