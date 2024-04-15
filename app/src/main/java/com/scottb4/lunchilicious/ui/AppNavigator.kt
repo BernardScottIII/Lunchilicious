@@ -5,7 +5,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.scottb4.lunchilicious.data.FoodOrder
 
 object LunchiliciousScreen {
     const val OrderScreen = "OrderScreen"
@@ -14,10 +13,7 @@ object LunchiliciousScreen {
 
 @Composable
 fun AppNavigator(
-    lunchiliciousViewModel: LunchiliciousViewModel = LunchiliciousViewModel(),
-    menuItemViewModel: MenuItemViewModel = viewModel(factory = MenuItemViewModel.Factory),
-    lineItemViewModel: LineItemViewModel = viewModel(factory = LineItemViewModel.Factory),
-    foodOrderViewModel: FoodOrderViewModel = viewModel(factory = FoodOrderViewModel.Factory)
+    lunchiliciousViewModel: LunchiliciousViewModel = viewModel(factory = LunchiliciousViewModel.Factory)
 ) {
     val navController = rememberNavController()
 
@@ -28,7 +24,6 @@ fun AppNavigator(
         composable(LunchiliciousScreen.OrderScreen) {
             OrderScreen(
                 lunchiliciousViewModel = lunchiliciousViewModel,
-                menuItemViewModel = menuItemViewModel,
                 navigateToConfirmationScreen = {
                     navController.navigate(LunchiliciousScreen.ConfirmationScreen)
                 }
@@ -37,9 +32,6 @@ fun AppNavigator(
         composable(LunchiliciousScreen.ConfirmationScreen) {
             ConfirmationScreen(
                 lunchiliciousViewModel = lunchiliciousViewModel,
-                menuItemViewModel = menuItemViewModel,
-                lineItemViewModel = lineItemViewModel,
-                foodOrderViewModel = foodOrderViewModel,
                 navigateToOrderScreen = {
                     navController.popBackStack()
                 }
