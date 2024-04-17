@@ -1,8 +1,8 @@
 package com.scottb4.lunchilicious.ui
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
@@ -14,15 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-
-private fun validateDoubleInput (
-    input: String
-): Boolean {
-    return (input.matches("[0-9]*[.]+[0-9]*[.]+[0-9]*".toRegex())
-            || input.indexOf("-") > -1
-            || input.indexOf(" ") > -1
-            )
-}
+import com.scottb4.lunchilicious.data.MenuItem
 
 @Composable
 fun NewItemScreen(
@@ -35,31 +27,35 @@ fun NewItemScreen(
         StatelessNewMenuItemInput(
             value = lunchiliciousViewModel.tempMenuItemType,
             label = { Text(text = "Menu Item Type") },
+            isError = lunchiliciousViewModel.validateTempMenuItemType()
         ) {
-            lunchiliciousViewModel.tempMenuItemType = it
+            lunchiliciousViewModel.updateTempMenuItemType(it)
         }
         StatelessNewMenuItemInput(
             value = lunchiliciousViewModel.tempMenuItemName,
             label = { Text(text = "Menu Item Name") },
+            isError = lunchiliciousViewModel.validateTempMenuItemName()
         ) {
-            lunchiliciousViewModel.tempMenuItemName = it
+            lunchiliciousViewModel.updateTempMenuItemName(it)
         }
         StatelessNewMenuItemInput(
             value = lunchiliciousViewModel.tempMenuItemDesc,
             label = { Text(text = "Menu Item Description") },
+            isError = lunchiliciousViewModel.validateTempMenuItemDesc()
         ) {
-            lunchiliciousViewModel.tempMenuItemDesc = it
+            lunchiliciousViewModel.updateTempMenuItemDesc(it)
         }
         StatelessNewMenuItemInput(
             value = lunchiliciousViewModel.tempMenuItemPrice,
             label = { Text(text = "Menu Item Price") },
             prefix = { Text(text = "$") },
             placeholder = { Text(text = "0.00")},
-            isError = validateDoubleInput(lunchiliciousViewModel.tempMenuItemPrice),
+            isError = lunchiliciousViewModel.validateTempMenuItemPrice(),
             keyboardType = KeyboardType.Number
         ) {
-            lunchiliciousViewModel.tempMenuItemPrice = it
+            lunchiliciousViewModel.updateTempMenuItemPrice(it)
         }
+        Spacer(modifier = Modifier.weight(1f))
         Row (
             verticalAlignment = Alignment.Bottom
         ){
@@ -75,10 +71,7 @@ fun NewItemScreen(
                         bottom = 6.dp
                     ),
                 onClick = {
-                    lunchiliciousViewModel.tempMenuItemType = ""
-                    lunchiliciousViewModel.tempMenuItemName = ""
-                    lunchiliciousViewModel.tempMenuItemDesc = ""
-                    lunchiliciousViewModel.tempMenuItemPrice = ""
+                    lunchiliciousViewModel.clearTempMenuItemFields()
                 }
             ) {
                 Text(text = "Reset")
@@ -99,7 +92,26 @@ fun NewItemScreen(
                         bottom = 6.dp
                     ),
                 onClick = {
-                    navigateToOrderScreen()
+                    lunchiliciousViewModel.setTempMenuItemValidation(false)
+                    if (
+                        lunchiliciousViewModel.tempMenuItemType != "" &&
+                        lunchiliciousViewModel.tempMenuItemName != "" &&
+                        lunchiliciousViewModel.tempMenuItemDesc != "" &&
+                        lunchiliciousViewModel.tempMenuItemPrice != ""
+                    ) {
+                        lunchiliciousViewModel.insertMenuItem(
+                            MenuItem(
+                                type = lunchiliciousViewModel.tempMenuItemType,
+                                name = lunchiliciousViewModel.tempMenuItemName,
+                                description = lunchiliciousViewModel.tempMenuItemDesc,
+                                unit_price = lunchiliciousViewModel.tempMenuItemPrice.toDouble()
+                            )
+                        )
+                        lunchiliciousViewModel.clearTempMenuItemFields()
+                        navigateToOrderScreen()
+                    } else {
+                        lunchiliciousViewModel.setTempMenuItemValidation(true)
+                    }
                 }
             ) {
                 Text(text = "Save Item")

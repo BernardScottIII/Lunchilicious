@@ -1,10 +1,8 @@
 package com.scottb4.lunchilicious.ui
 
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
@@ -28,6 +26,11 @@ class LunchiliciousViewModel (
 
     private var _selectedMenuItems = mutableStateListOf<MenuItem>()
     private var _detailsValueList = mutableStateListOf<Boolean>()
+    private var _tempMenuItemType = mutableStateOf("")
+    private var _tempMenuItemName = mutableStateOf("")
+    private var _tempMenuItemDesc = mutableStateOf("")
+    private var _tempMenuItemPrice = mutableStateOf("")
+    private var _validateTempMenuItemInput = mutableStateOf(false)
 
     fun getLength() = runBlocking {
         val resultDeferred = async { lunchiliciousRepository.getNumMenuItems() }
@@ -52,12 +55,40 @@ class LunchiliciousViewModel (
         return _detailsValueList
     }
 
+    fun setTempMenuItemValidation(status: Boolean) {
+        _validateTempMenuItemInput.value = status
+    }
+
     val selectedMenuItems = _selectedMenuItems
     val detailsValueList = createDetailsValueList()
-    var tempMenuItemType by mutableStateOf("")
-    var tempMenuItemName by mutableStateOf("")
-    var tempMenuItemDesc by mutableStateOf("")
-    var tempMenuItemPrice by mutableStateOf("")
+    val tempMenuItemType by _tempMenuItemType
+    val tempMenuItemName by _tempMenuItemName
+    val tempMenuItemDesc by _tempMenuItemDesc
+    val tempMenuItemPrice by _tempMenuItemPrice
+    val validateTempMenuItemInput by _validateTempMenuItemInput
+
+    fun updateTempMenuItemType(type: String) {
+        _tempMenuItemType.value = type
+    }
+    fun updateTempMenuItemName(name: String) {
+        _tempMenuItemName.value = name
+    }
+    fun updateTempMenuItemDesc(desc: String) {
+        _tempMenuItemDesc.value = desc
+    }
+    fun updateTempMenuItemPrice(price: String) {
+        _tempMenuItemPrice.value = price
+    }
+
+    fun validateTempMenuItemType(): Boolean = tempMenuItemType == "" && validateTempMenuItemInput
+    fun validateTempMenuItemName(): Boolean = tempMenuItemName == "" && validateTempMenuItemInput
+    fun validateTempMenuItemDesc(): Boolean = tempMenuItemDesc == "" && validateTempMenuItemInput
+    fun validateTempMenuItemPrice(): Boolean =
+        (tempMenuItemPrice.matches("[0-9]*[.]+[0-9]*[.]+[0-9]*".toRegex())
+            || tempMenuItemPrice.indexOf("-") > -1
+            || tempMenuItemPrice.indexOf(" ") > -1
+            || tempMenuItemPrice == ""
+            ) && validateTempMenuItemInput
 
     fun getAllMenuItems(): Flow<List<MenuItem>> {
         return lunchiliciousRepository.getAllMenuItemsStream()
@@ -105,5 +136,18 @@ class LunchiliciousViewModel (
         viewModelScope.launch {
             lunchiliciousRepository.insertFoodOrder(foodOrder)
         }
+    }
+
+    fun insertMenuItem(menuItem: MenuItem) {
+        viewModelScope.launch {
+            lunchiliciousRepository.insertMenuItem(menuItem)
+        }
+    }
+
+    fun clearTempMenuItemFields() {
+        _tempMenuItemType.value = ""
+        _tempMenuItemName.value = ""
+        _tempMenuItemDesc.value = ""
+        _tempMenuItemPrice.value = ""
     }
 }
