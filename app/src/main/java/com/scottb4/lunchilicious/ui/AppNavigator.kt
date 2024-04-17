@@ -9,6 +9,7 @@ import androidx.navigation.compose.rememberNavController
 object LunchiliciousScreen {
     const val OrderScreen = "OrderScreen"
     const val ConfirmationScreen = "ConfirmationScreen"
+    const val NewItemScreen = "NewItemScreen"
 }
 
 @Composable
@@ -26,11 +27,22 @@ fun AppNavigator(
                 lunchiliciousViewModel = lunchiliciousViewModel,
                 navigateToConfirmationScreen = {
                     navController.navigate(LunchiliciousScreen.ConfirmationScreen)
+                },
+                navigateToNewItemScreen = {
+                    navController.navigate(LunchiliciousScreen.NewItemScreen)
                 }
             )
         }
         composable(LunchiliciousScreen.ConfirmationScreen) {
             ConfirmationScreen(
+                lunchiliciousViewModel = lunchiliciousViewModel,
+                navigateToOrderScreen = {
+                    navController.popBackStack()
+                }
+            )
+        }
+        composable(LunchiliciousScreen.NewItemScreen) {
+            NewItemScreen(
                 lunchiliciousViewModel = lunchiliciousViewModel,
                 navigateToOrderScreen = {
                     navController.popBackStack()

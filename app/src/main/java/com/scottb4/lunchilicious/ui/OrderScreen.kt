@@ -2,6 +2,8 @@ package com.scottb4.lunchilicious.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -26,6 +28,7 @@ import androidx.compose.ui.text.style.TextAlign
 @Composable
 fun OrderScreen (
     navigateToConfirmationScreen: () -> Unit,
+    navigateToNewItemScreen: () -> Unit,
     modifier: Modifier = Modifier,
     lunchiliciousViewModel: LunchiliciousViewModel = viewModel(factory = LunchiliciousViewModel.Factory)
 ) {
@@ -52,7 +55,7 @@ fun OrderScreen (
                 start = 0.dp,
                 top = 0.dp,
                 end = 0.dp,
-                bottom = 72.dp
+                bottom = 108.dp
             ),
         verticalArrangement = Arrangement.spacedBy(6.dp),
         contentPadding = PaddingValues(6.dp)
@@ -107,20 +110,50 @@ fun OrderScreen (
 
         }
     }
-    Row (
-        verticalAlignment = Alignment.Bottom
+    Column (
+        verticalArrangement = Arrangement.Bottom
     ){
-        ElevatedButton(
-            enabled = true,
-            shape = CircleShape,
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(24.dp),
-            onClick = {
-                navigateToConfirmationScreen()
+        Row (
+            verticalAlignment = Alignment.Bottom
+        ){
+            ElevatedButton(
+                enabled = true,
+                shape = CircleShape,
+                modifier = modifier
+                    .fillMaxWidth()
+                    .padding(
+                        top = 24.dp,
+                        end = 24.dp,
+                        bottom = 0.dp,
+                        start = 24.dp
+                    ),
+                onClick = {
+                    navigateToConfirmationScreen()
+                }
+            ) {
+                Text(text = "View Cart")
             }
-        ) {
-            Text(text = "View Cart")
+        }
+        Row (
+            verticalAlignment = Alignment.Bottom
+        ){
+            ElevatedButton(
+                enabled = true,
+                shape = CircleShape,
+                modifier = modifier
+                    .fillMaxWidth()
+                    .padding(
+                        top = 6.dp,
+                        end = 24.dp,
+                        bottom = 6.dp,
+                        start = 24.dp
+                    ),
+                onClick = {
+                    navigateToNewItemScreen()
+                }
+            ) {
+                Text(text = "Add Item")
+            }
         }
     }
 }

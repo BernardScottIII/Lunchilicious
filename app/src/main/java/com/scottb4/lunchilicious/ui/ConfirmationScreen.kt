@@ -29,7 +29,7 @@ fun ConfirmationScreen (
     lunchiliciousViewModel: LunchiliciousViewModel = viewModel(factory = LunchiliciousViewModel.Factory)
 ) {
     val menu by lunchiliciousViewModel.getAllMenuItems().collectAsState(initial = emptyList())
-    val candidateLineItems: MutableList<MenuItem> = ArrayList<MenuItem>()
+    val candidateLineItems: MutableList<MenuItem> = ArrayList()
     var orderTotal = 0.0
     val scope = rememberCoroutineScope()
 

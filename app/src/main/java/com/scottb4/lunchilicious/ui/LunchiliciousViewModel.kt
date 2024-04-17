@@ -1,6 +1,11 @@
 package com.scottb4.lunchilicious.ui
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -49,6 +54,10 @@ class LunchiliciousViewModel (
 
     val selectedMenuItems = _selectedMenuItems
     val detailsValueList = createDetailsValueList()
+    var tempMenuItemType by mutableStateOf("")
+    var tempMenuItemName by mutableStateOf("")
+    var tempMenuItemDesc by mutableStateOf("")
+    var tempMenuItemPrice by mutableStateOf("")
 
     fun getAllMenuItems(): Flow<List<MenuItem>> {
         return lunchiliciousRepository.getAllMenuItemsStream()
