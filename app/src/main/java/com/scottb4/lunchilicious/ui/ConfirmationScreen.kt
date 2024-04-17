@@ -44,7 +44,8 @@ fun ConfirmationScreen (
         ) {
             item { Text(text = "Order Summary") }
             menu.forEach { menuItem ->
-                if (lunchiliciousViewModel.checkboxValueList[menuItem.id.toInt()-1]) {
+                if (lunchiliciousViewModel.selectedMenuItems.contains(menuItem)) {
+//                if (lunchiliciousViewModel.checkboxValueList[menuItem.id.toInt()-1]) {
                     item {
                         Text(text = "${menuItem.name} => 1 x ${NumberFormat.getCurrencyInstance().format(menuItem.unit_price)}")
                     }

@@ -10,26 +10,33 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.scottb4.lunchilicious.LunchiliciousApplication
 import com.scottb4.lunchilicious.data.FoodOrder
 import com.scottb4.lunchilicious.data.LineItem
-import com.scottb4.lunchilicious.data.LunchiliciousDatabase
 import com.scottb4.lunchilicious.data.MenuItem
 import com.scottb4.lunchilicious.domain.LunchiliciousRepository
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class LunchiliciousViewModel (
     private val lunchiliciousRepository: LunchiliciousRepository
 ): ViewModel() {
 
-    private var _checkboxValueList = mutableStateListOf<Boolean>()
+    private var _selectedMenuItems = mutableStateListOf<MenuItem>()
     private var _detailsValueList = mutableStateListOf<Boolean>()
-    private val length = LunchiliciousDatabase.getNumberOfItems()
 
-    private fun createCheckboxValueList(): SnapshotStateList<Boolean> {
-        for (i in 0..length) {
-            _checkboxValueList.add(false)
-        }
+    fun getLength() = runBlocking {
+        val resultDeferred = async { lunchiliciousRepository.getNumMenuItems() }
+        return@runBlocking resultDeferred.await()
+    }
 
-        return _checkboxValueList
+    private val length = getLength()
+
+    fun selectMenuItem(menuItem: MenuItem) {
+        _selectedMenuItems.add(menuItem)
+    }
+
+    fun removeMenuItem(menuItem: MenuItem) {
+        _selectedMenuItems.remove(menuItem)
     }
 
     private fun createDetailsValueList(): SnapshotStateList<Boolean> {
@@ -40,7 +47,7 @@ class LunchiliciousViewModel (
         return _detailsValueList
     }
 
-    val checkboxValueList = createCheckboxValueList()
+    val selectedMenuItems = _selectedMenuItems
     val detailsValueList = createDetailsValueList()
 
     fun getAllMenuItems(): Flow<List<MenuItem>> {

@@ -55,10 +55,6 @@ abstract class LunchiliciousDatabase : RoomDatabase() {
             }
         }
 
-        fun getNumberOfItems(): Int {
-            return items.size
-        }
-
         private suspend fun prepopulateMenuItems (
             menuItemDao: MenuItemDao,
             foodOrderDao: FoodOrderDao,

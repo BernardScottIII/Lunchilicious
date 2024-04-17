@@ -2,7 +2,7 @@ package com.scottb4.lunchilicious
 
 import android.app.Application
 import com.scottb4.lunchilicious.data.LunchiliciousDatabase
-import com.scottb4.lunchilicious.data.LunchiliciousRepositoryImplementation
+import com.scottb4.lunchilicious.data.LunchiliciousRepoImpl
 import com.scottb4.lunchilicious.domain.LunchiliciousRepository
 
 class LunchiliciousApplication: Application() {
@@ -10,6 +10,6 @@ class LunchiliciousApplication: Application() {
     override fun onCreate() {
         super.onCreate()
         lunchiliciousRepository =
-         LunchiliciousRepositoryImplementation(LunchiliciousDatabase.getDatabase(this))
+         LunchiliciousRepoImpl(LunchiliciousDatabase.getDatabase(this))
     }
 }

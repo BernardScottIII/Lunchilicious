@@ -31,4 +31,7 @@ interface MenuItemDao {
 
     @Query("SELECT * from menu_item ORDER BY name ASC")
     fun getAllMenuItems(): Flow<List<MenuItem>>
+
+    @Query("SELECT COUNT(*) FROM 'menu_item'")
+    suspend fun getNumMenuItems(): Int
 }

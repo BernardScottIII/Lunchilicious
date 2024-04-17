@@ -3,7 +3,7 @@ package com.scottb4.lunchilicious.data
 import com.scottb4.lunchilicious.domain.LunchiliciousRepository
 import kotlinx.coroutines.flow.Flow
 
-class LunchiliciousRepositoryImplementation (private val lunchiliciousDb: LunchiliciousDatabase): LunchiliciousRepository {
+class LunchiliciousRepoImpl (private val lunchiliciousDb: LunchiliciousDatabase): LunchiliciousRepository {
     override fun getAllMenuItemsStream(): Flow<List<MenuItem>> =
         lunchiliciousDb.menuItemDao().getAllMenuItems()
 
@@ -48,4 +48,7 @@ class LunchiliciousRepositoryImplementation (private val lunchiliciousDb: Lunchi
 
     override suspend fun updateLineItem(lineItem: LineItem) =
         lunchiliciousDb.lineItemDao().update(lineItem)
+
+    override suspend fun getNumMenuItems(): Int =
+        lunchiliciousDb.menuItemDao().getNumMenuItems()
 }

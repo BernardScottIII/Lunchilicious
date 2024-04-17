@@ -22,4 +22,5 @@ interface LunchiliciousRepository {
     suspend fun insertLineItem(lineItem: LineItem): Long
     suspend fun deleteLineItem(lineItem: LineItem)
     suspend fun updateLineItem(lineItem: LineItem)
+    suspend fun getNumMenuItems(): Int
 }

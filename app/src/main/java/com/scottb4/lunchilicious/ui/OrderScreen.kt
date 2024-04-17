@@ -65,9 +65,16 @@ fun OrderScreen (
             )
             Row {
                 Checkbox(
-                    checked = lunchiliciousViewModel.checkboxValueList[menuItem.id.toInt()-1],
+                    checked = lunchiliciousViewModel.selectedMenuItems.contains(menuItem),
+//                    checked = lunchiliciousViewModel.checkboxValueList[menuItem.id.toInt()-1],
                     onCheckedChange = {
-                        lunchiliciousViewModel.checkboxValueList[menuItem.id.toInt()-1] = !lunchiliciousViewModel.checkboxValueList[menuItem.id.toInt()-1]
+//                        lunchiliciousViewModel.checkboxValueList[menuItem.id.toInt()-1] = !lunchiliciousViewModel.checkboxValueList[menuItem.id.toInt()-1]
+                        if (lunchiliciousViewModel.selectedMenuItems.contains(menuItem)) {
+                            lunchiliciousViewModel.removeMenuItem(menuItem)
+                        }
+                        else {
+                            lunchiliciousViewModel.selectMenuItem(menuItem)
+                        }
                     }
                 )
                 Text(
