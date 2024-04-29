@@ -39,8 +39,8 @@ abstract class LunchiliciousDatabase : RoomDatabase() {
             return Instance ?: synchronized(this) {
                 Room.databaseBuilder(context, LunchiliciousDatabase::class.java, "my_lunchilicious_database")
                     .addCallback(object: Callback() {
-                        override fun onOpen(db: SupportSQLiteDatabase) {
-                            super.onOpen(db)
+                        override fun onCreate(db: SupportSQLiteDatabase) {
+                            super.onCreate(db)
                             GlobalScope.launch(context = Dispatchers.IO) {
                                 val menuItemDao = getDatabase(context).menuItemDao()
                                 val foodOrderDao = getDatabase(context).foodOrderDao()

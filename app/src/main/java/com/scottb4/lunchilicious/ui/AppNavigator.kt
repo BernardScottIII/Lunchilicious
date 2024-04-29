@@ -2,11 +2,12 @@ package com.scottb4.lunchilicious.ui
 
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 
-object LunchiliciousScreen {
+private object LunchiliciousScreen {
     const val OrderScreen = "OrderScreen"
     const val ConfirmationScreen = "ConfirmationScreen"
     const val NewItemScreen = "NewItemScreen"
@@ -16,7 +17,7 @@ object LunchiliciousScreen {
 fun AppNavigator(
     lunchiliciousViewModel: LunchiliciousViewModel = viewModel(factory = LunchiliciousViewModel.Factory)
 ) {
-    val navController = rememberNavController()
+    val navController:NavHostController = rememberNavController()
 
     NavHost(
         navController = navController,
