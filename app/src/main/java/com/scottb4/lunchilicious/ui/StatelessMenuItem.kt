@@ -52,7 +52,7 @@ fun StatelessMenuItem(
                 fontWeight = FontWeight.ExtraLight
             )
             Text(
-                text = "unitPrice = ${NumberFormat.getCurrencyInstance().format(menuItem.unit_price)}",
+                text = "unitPrice = ${NumberFormat.getCurrencyInstance().format(menuItem.unitPrice)}",
                 modifier = modifier,
                 fontFamily = FontFamily.SansSerif,
                 fontWeight = FontWeight.Bold

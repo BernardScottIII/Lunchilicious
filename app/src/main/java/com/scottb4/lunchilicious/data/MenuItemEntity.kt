@@ -9,5 +9,5 @@ data class MenuItem (
     val type: String,
     val name: String,
     val description: String,
-    val unit_price: Double
+    val unitPrice: Double
 )

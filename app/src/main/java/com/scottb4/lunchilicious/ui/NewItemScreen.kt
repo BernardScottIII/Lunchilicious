@@ -104,7 +104,7 @@ fun NewItemScreen(
                                 type = lunchiliciousViewModel.tempMenuItemType,
                                 name = lunchiliciousViewModel.tempMenuItemName,
                                 description = lunchiliciousViewModel.tempMenuItemDesc,
-                                unit_price = lunchiliciousViewModel.tempMenuItemPrice.toDouble()
+                                unitPrice = lunchiliciousViewModel.tempMenuItemPrice.toDouble()
                             )
                         )
                         lunchiliciousViewModel.clearTempMenuItemFields()

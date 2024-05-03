@@ -47,10 +47,10 @@ fun ConfirmationScreen (
                 if (lunchiliciousViewModel.selectedMenuItems.contains(menuItem)) {
 //                if (lunchiliciousViewModel.checkboxValueList[menuItem.id.toInt()-1]) {
                     item {
-                        Text(text = "${menuItem.name} => 1 x ${NumberFormat.getCurrencyInstance().format(menuItem.unit_price)}")
+                        Text(text = "${menuItem.name} => 1 x ${NumberFormat.getCurrencyInstance().format(menuItem.unitPrice)}")
                     }
                     candidateLineItems.add(menuItem)
-                    orderTotal += menuItem.unit_price
+                    orderTotal += menuItem.unitPrice
                 }
             }
         }
