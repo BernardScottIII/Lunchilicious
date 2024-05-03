@@ -1,5 +1,7 @@
 package com.scottb4.lunchilicious.ui
 
+import android.os.Build
+import androidx.annotation.RequiresExtension
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,12 +27,13 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.foundation.lazy.items
 import androidx.compose.ui.text.style.TextAlign
 
+@RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
 @Composable
 fun OrderScreen (
     navigateToConfirmationScreen: () -> Unit,
     navigateToNewItemScreen: () -> Unit,
     modifier: Modifier = Modifier,
-    lunchiliciousViewModel: LunchiliciousViewModel = viewModel(factory = LunchiliciousViewModel.Factory)
+    lunchiliciousViewModel: LunchiliciousViewModel = viewModel(factory = LunchiliciousViewModel.Factory),
 ) {
     val menu by lunchiliciousViewModel.getAllMenuItems().collectAsState(initial = emptyList())
 
@@ -52,9 +55,6 @@ fun OrderScreen (
         modifier = modifier
             .fillMaxWidth()
             .padding(
-                start = 0.dp,
-                top = 0.dp,
-                end = 0.dp,
                 bottom = 108.dp
             ),
         verticalArrangement = Arrangement.spacedBy(6.dp),
@@ -69,9 +69,7 @@ fun OrderScreen (
             Row {
                 Checkbox(
                     checked = lunchiliciousViewModel.selectedMenuItems.contains(menuItem),
-//                    checked = lunchiliciousViewModel.checkboxValueList[menuItem.id.toInt()-1],
                     onCheckedChange = {
-//                        lunchiliciousViewModel.checkboxValueList[menuItem.id.toInt()-1] = !lunchiliciousViewModel.checkboxValueList[menuItem.id.toInt()-1]
                         if (lunchiliciousViewModel.selectedMenuItems.contains(menuItem)) {
                             lunchiliciousViewModel.removeMenuItem(menuItem)
                         }

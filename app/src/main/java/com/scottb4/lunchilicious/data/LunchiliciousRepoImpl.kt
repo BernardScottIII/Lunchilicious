@@ -1,7 +1,10 @@
 package com.scottb4.lunchilicious.data
 
 import com.scottb4.lunchilicious.domain.LunchiliciousRepository
+import com.scottb4.lunchilicious.network.LunchiliciousClient
 import kotlinx.coroutines.flow.Flow
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class LunchiliciousRepoImpl (private val lunchiliciousDb: LunchiliciousDatabase): LunchiliciousRepository {
     override fun getAllMenuItemsStream(): Flow<List<MenuItem>> =
@@ -51,4 +54,19 @@ class LunchiliciousRepoImpl (private val lunchiliciousDb: LunchiliciousDatabase)
 
     override suspend fun getNumMenuItems(): Int =
         lunchiliciousDb.menuItemDao().getNumMenuItems()
+
+    val baseUrl = "http://aristotle.cs.scranton.edu/"
+    private var lunchiliciousClient: LunchiliciousClient
+    init {
+// create a retrofit object
+        val retrofit: Retrofit = Retrofit.Builder()
+            .addConverterFactory(GsonConverterFactory.create())
+            .baseUrl(baseUrl)
+            .build()
+// create a Client object for MarsApiService
+        lunchiliciousClient = retrofit.create(LunchiliciousClient::class.java)
+    }
+    override suspend fun getMenuItems(): List<MenuItem> =
+        lunchiliciousClient.getMenuItems()
+
 }

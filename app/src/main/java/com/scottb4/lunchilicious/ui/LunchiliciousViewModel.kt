@@ -1,5 +1,9 @@
 package com.scottb4.lunchilicious.ui
 
+import android.net.http.HttpException
+import android.os.Build
+import android.util.Log
+import androidx.annotation.RequiresExtension
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -7,6 +11,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
@@ -19,7 +24,15 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import java.io.IOException
 
+sealed interface LunchiliciousUiState {
+    data class Success(val menuItems: List<MenuItem>) : LunchiliciousUiState
+    object Error : LunchiliciousUiState
+    object Loading : LunchiliciousUiState
+}
+
+@RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
 class LunchiliciousViewModel (
     private val lunchiliciousRepository: LunchiliciousRepository
 ): ViewModel() {
@@ -31,6 +44,12 @@ class LunchiliciousViewModel (
     private var _tempMenuItemDesc = mutableStateOf("")
     private var _tempMenuItemPrice = mutableStateOf("")
     private var _validateTempMenuItemInput = mutableStateOf(false)
+    var lunchiliciousUiState: LunchiliciousUiState by mutableStateOf(LunchiliciousUiState.Loading)
+        private set
+
+    init {
+        getMenuItems()
+    }
 
     fun getLength() = runBlocking {
         val resultDeferred = async { lunchiliciousRepository.getNumMenuItems() }
@@ -97,6 +116,9 @@ class LunchiliciousViewModel (
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
+                val application = (this[APPLICATION_KEY] as LunchiliciousApplication)
+                val lunchiliciousRepository = application.lunchiliciousRepository
+                LunchiliciousViewModel(lunchiliciousRepository = lunchiliciousRepository)
                 val myRepository =
                     (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as
                             LunchiliciousApplication).lunchiliciousRepository
@@ -149,5 +171,20 @@ class LunchiliciousViewModel (
         _tempMenuItemName.value = ""
         _tempMenuItemDesc.value = ""
         _tempMenuItemPrice.value = ""
+    }
+
+    @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
+    private fun getMenuItems() {
+        viewModelScope.launch {
+            lunchiliciousUiState = try {
+                LunchiliciousUiState.Success(lunchiliciousRepository.getMenuItems())
+            } catch (e: IOException) {
+                Log.i("IO", e.toString())
+                LunchiliciousUiState.Error
+            } catch (e: HttpException) {
+                Log.i("HTTP", e.toString())
+                LunchiliciousUiState.Error
+            }
+        }
     }
 }
