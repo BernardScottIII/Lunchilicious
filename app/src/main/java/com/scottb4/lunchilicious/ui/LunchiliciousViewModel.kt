@@ -32,7 +32,6 @@ sealed interface LunchiliciousUiState {
     object Loading : LunchiliciousUiState
 }
 
-@RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
 class LunchiliciousViewModel (
     private val lunchiliciousRepository: LunchiliciousRepository
 ): ViewModel() {
@@ -44,7 +43,8 @@ class LunchiliciousViewModel (
     private var _tempMenuItemDesc = mutableStateOf("")
     private var _tempMenuItemPrice = mutableStateOf("")
     private var _validateTempMenuItemInput = mutableStateOf(false)
-    var lunchiliciousUiState: LunchiliciousUiState by mutableStateOf(LunchiliciousUiState.Loading)
+    var lunchiliciousUiState: LunchiliciousUiState by
+    mutableStateOf(LunchiliciousUiState.Loading)
         private set
 
     init {
@@ -52,7 +52,7 @@ class LunchiliciousViewModel (
     }
 
     fun getLength() = runBlocking {
-        val resultDeferred = async { lunchiliciousRepository.getNumMenuItems() }
+        val resultDeferred = async { lunchiliciousRepository.getMenuItems().size }
         return@runBlocking resultDeferred.await()
     }
 
@@ -119,10 +119,10 @@ class LunchiliciousViewModel (
                 val application = (this[APPLICATION_KEY] as LunchiliciousApplication)
                 val lunchiliciousRepository = application.lunchiliciousRepository
                 LunchiliciousViewModel(lunchiliciousRepository = lunchiliciousRepository)
-                val myRepository =
-                    (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as
-                            LunchiliciousApplication).lunchiliciousRepository
-                LunchiliciousViewModel(lunchiliciousRepository = myRepository)
+//                val myRepository =
+//                    (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as
+//                            LunchiliciousApplication).lunchiliciousRepository
+//                LunchiliciousViewModel(lunchiliciousRepository = myRepository)
             }
         }
     }
@@ -173,9 +173,9 @@ class LunchiliciousViewModel (
         _tempMenuItemPrice.value = ""
     }
 
-    @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
     private fun getMenuItems() {
         viewModelScope.launch {
+            lunchiliciousUiState = LunchiliciousUiState.Loading
             lunchiliciousUiState = try {
                 LunchiliciousUiState.Success(lunchiliciousRepository.getMenuItems())
             } catch (e: IOException) {

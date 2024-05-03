@@ -1,6 +1,6 @@
 package com.scottb4.lunchilicious.ui
 
-import android.os.Build
+
 import androidx.annotation.RequiresExtension
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -26,16 +26,17 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.foundation.lazy.items
 import androidx.compose.ui.text.style.TextAlign
+import com.scottb4.lunchilicious.data.MenuItem
 
-@RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
 @Composable
 fun OrderScreen (
     navigateToConfirmationScreen: () -> Unit,
     navigateToNewItemScreen: () -> Unit,
     modifier: Modifier = Modifier,
     lunchiliciousViewModel: LunchiliciousViewModel = viewModel(factory = LunchiliciousViewModel.Factory),
+    menu: List<MenuItem> = lunchiliciousViewModel.getAllMenuItems().collectAsState(initial = emptyList()).value
 ) {
-    val menu by lunchiliciousViewModel.getAllMenuItems().collectAsState(initial = emptyList())
+    //val menu by lunchiliciousViewModel.getAllMenuItems().collectAsState(initial = emptyList())
 
 
 //    val menuItemImages = listOf(

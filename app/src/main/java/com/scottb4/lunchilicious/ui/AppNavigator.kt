@@ -22,6 +22,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.scottb4.lunchilicious.R
+import com.scottb4.lunchilicious.data.MenuItem
 
 private object LunchiliciousScreen {
     const val OrderScreen = "OrderScreen"
@@ -30,7 +31,6 @@ private object LunchiliciousScreen {
     const val HomeScreen = "HomeScreen"
 }
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppNavigator(
@@ -53,8 +53,12 @@ fun AppNavigator(
                 composable(LunchiliciousScreen.HomeScreen) {
                     HomeScreen(
                         lunchiliciousUiState = lunchiliciousViewModel.lunchiliciousUiState,
-                        navigateToOrderScreen = {
-                            navController.navigate(LunchiliciousScreen.OrderScreen)
+                        lunchiliciousViewModel = lunchiliciousViewModel,
+                        navigateToConfirmationScreen = {
+                            navController.navigate(LunchiliciousScreen.ConfirmationScreen)
+                        },
+                        navigateToNewItemScreen = {
+                            navController.navigate(LunchiliciousScreen.NewItemScreen)
                         }
                     )
                 }
@@ -66,7 +70,8 @@ fun AppNavigator(
                         },
                         navigateToNewItemScreen = {
                             navController.navigate(LunchiliciousScreen.NewItemScreen)
-                        }
+                        },
+
                     )
                 }
                 composable(LunchiliciousScreen.ConfirmationScreen) {

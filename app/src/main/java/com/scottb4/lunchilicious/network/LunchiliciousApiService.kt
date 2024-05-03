@@ -14,7 +14,7 @@ val retrofit: Retrofit = Retrofit.Builder()
     .build()
 
 interface LunchiliciousClient {
-    @GET("lunchilicious/")
+    @GET("lunchilicious")
     suspend fun getMenuItems(): List<MenuItem>
 }
 

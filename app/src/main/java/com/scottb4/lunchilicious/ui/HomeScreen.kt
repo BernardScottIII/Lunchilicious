@@ -1,5 +1,7 @@
 package com.scottb4.lunchilicious.ui
 
+import android.os.Build
+import androidx.annotation.RequiresExtension
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,16 +15,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.scottb4.lunchilicious.R
 
 @Composable
 fun HomeScreen(
     lunchiliciousUiState: LunchiliciousUiState,
-    navigateToOrderScreen: () -> Unit,
+    navigateToConfirmationScreen: () -> Unit,
+    navigateToNewItemScreen: () -> Unit,
     modifier: Modifier = Modifier,
+    lunchiliciousViewModel: LunchiliciousViewModel = viewModel(factory = LunchiliciousViewModel.Factory),
 ) {
     when (lunchiliciousUiState) {
-        is LunchiliciousUiState.Success -> navigateToOrderScreen
+        is LunchiliciousUiState.Success -> OrderScreen(
+            navigateToConfirmationScreen = navigateToConfirmationScreen,
+            navigateToNewItemScreen = navigateToNewItemScreen,
+            lunchiliciousViewModel = lunchiliciousViewModel,
+            menu = lunchiliciousUiState.menuItems
+        )
         is LunchiliciousUiState.Error -> ErrorScreen( modifier = modifier.fillMaxSize())
         is LunchiliciousUiState.Loading -> LoadingScreen(modifier = modifier.fillMaxSize())
     }

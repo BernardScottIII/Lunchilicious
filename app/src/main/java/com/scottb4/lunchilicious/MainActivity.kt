@@ -13,7 +13,7 @@ import com.scottb4.lunchilicious.ui.AppNavigator
 import com.scottb4.lunchilicious.ui.theme.LunchiliciousTheme
 
 class MainActivity : ComponentActivity() {
-    @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
