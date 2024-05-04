@@ -6,7 +6,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
@@ -18,10 +17,8 @@ import com.scottb4.lunchilicious.data.FoodOrder
 import com.scottb4.lunchilicious.data.LineItem
 import com.scottb4.lunchilicious.data.MenuItem
 import com.scottb4.lunchilicious.domain.LunchiliciousRepo
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import java.io.IOException
 
 sealed interface LunchiliciousUiState {
@@ -35,7 +32,7 @@ class LunchiliciousViewModel (
 ): ViewModel() {
 
     private var _selectedMenuItems = mutableStateListOf<MenuItem>()
-    private var _detailsValueList = mutableStateListOf<Boolean>()
+    private var _detailsValueList = mutableStateListOf<MenuItem>()
     private var _tempMenuItemType = mutableStateOf("")
     private var _tempMenuItemName = mutableStateOf("")
     private var _tempMenuItemDesc = mutableStateOf("")
@@ -49,13 +46,6 @@ class LunchiliciousViewModel (
         getMenuItems()
     }
 
-    fun getLength() = runBlocking {
-        val resultDeferred = async { lunchiliciousRepo.getMenuItems().size }
-        return@runBlocking resultDeferred.await()
-    }
-
-    private val length = getLength()
-
     fun selectMenuItem(menuItem: MenuItem) {
         _selectedMenuItems.add(menuItem)
     }
@@ -64,12 +54,12 @@ class LunchiliciousViewModel (
         _selectedMenuItems.remove(menuItem)
     }
 
-    private fun createDetailsValueList(): SnapshotStateList<Boolean> {
-        for (i in 0..length) {
-            _detailsValueList.add(false)
-        }
+    fun showMenuItemDetails(menuItem: MenuItem) {
+        _detailsValueList.add(menuItem)
+    }
 
-        return _detailsValueList
+    fun hideMenuItemDetails(menuItem: MenuItem) {
+        _detailsValueList.remove(menuItem)
     }
 
     fun setTempMenuItemValidation(status: Boolean) {
@@ -77,7 +67,7 @@ class LunchiliciousViewModel (
     }
 
     val selectedMenuItems = _selectedMenuItems
-    val detailsValueList = createDetailsValueList()
+    val detailsValueList = _detailsValueList
     val tempMenuItemType by _tempMenuItemType
     val tempMenuItemName by _tempMenuItemName
     val tempMenuItemDesc by _tempMenuItemDesc
@@ -184,7 +174,15 @@ class LunchiliciousViewModel (
                 LunchiliciousUiState.Error
             }
             LunchiliciousUiState.Success(lunchiliciousRepo.getMenuItems()).menuItems.forEach {
-                insertMenuItem(it)
+                insertMenuItem(
+                    MenuItem(
+                        id = it.id + 10,
+                        type = it.type,
+                        name = it.name,
+                        description = it.description,
+                        unitPrice = it.unitPrice
+                    )
+                )
             }
         }
     }

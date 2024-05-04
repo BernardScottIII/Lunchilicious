@@ -54,7 +54,7 @@ fun MenuItemsColumn(
                     }
                 )
                 Text(
-                    text = if (lunchiliciousViewModel.detailsValueList[menuItem.id.toInt()-1]) {
+                    text = if (lunchiliciousViewModel.detailsValueList.contains(menuItem)) {
                         "Hide Details"
                     } else {
                         "Show Details"
@@ -66,14 +66,18 @@ fun MenuItemsColumn(
                         .padding(end = 6.dp),
                 )
                 Switch (
-                    checked = lunchiliciousViewModel.detailsValueList[menuItem.id.toInt()-1],
+                    checked = lunchiliciousViewModel.detailsValueList.contains(menuItem),
                     onCheckedChange = {
-                        lunchiliciousViewModel.detailsValueList[menuItem.id.toInt() - 1] =
-                            !lunchiliciousViewModel.detailsValueList[menuItem.id.toInt() - 1]
+                        if(lunchiliciousViewModel.detailsValueList.contains(menuItem)) {
+                            lunchiliciousViewModel.hideMenuItemDetails(menuItem)
+                        }
+                        else {
+                            lunchiliciousViewModel.showMenuItemDetails(menuItem)
+                        }
                     }
                 )
             }
-            if (lunchiliciousViewModel.detailsValueList[menuItem.id.toInt()-1]) {
+            if (lunchiliciousViewModel.detailsValueList.contains(menuItem)) {
                 Text(
                     text = menuItem.description,
                     modifier = modifier
