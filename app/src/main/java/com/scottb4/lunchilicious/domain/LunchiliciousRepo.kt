@@ -5,7 +5,7 @@ import com.scottb4.lunchilicious.data.LineItem
 import com.scottb4.lunchilicious.data.MenuItem
 import kotlinx.coroutines.flow.Flow
 
-interface LunchiliciousRepository {
+interface LunchiliciousRepo {
     fun getAllMenuItemsStream(): Flow<List<MenuItem>>
     fun getMenuItemStream(id: Int): Flow<MenuItem?>
     suspend fun insertMenuItem(menuItem: MenuItem): Long

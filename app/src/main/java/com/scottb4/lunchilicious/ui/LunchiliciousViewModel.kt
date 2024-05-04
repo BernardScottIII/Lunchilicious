@@ -1,9 +1,7 @@
 package com.scottb4.lunchilicious.ui
 
 import android.net.http.HttpException
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresExtension
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -15,11 +13,11 @@ import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.AP
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.scottb4.lunchilicious.LunchiliciousApplication
+import com.scottb4.lunchilicious.LunchiliciousApp
 import com.scottb4.lunchilicious.data.FoodOrder
 import com.scottb4.lunchilicious.data.LineItem
 import com.scottb4.lunchilicious.data.MenuItem
-import com.scottb4.lunchilicious.domain.LunchiliciousRepository
+import com.scottb4.lunchilicious.domain.LunchiliciousRepo
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
@@ -33,7 +31,7 @@ sealed interface LunchiliciousUiState {
 }
 
 class LunchiliciousViewModel (
-    private val lunchiliciousRepository: LunchiliciousRepository
+    private val lunchiliciousRepo: LunchiliciousRepo
 ): ViewModel() {
 
     private var _selectedMenuItems = mutableStateListOf<MenuItem>()
@@ -52,7 +50,7 @@ class LunchiliciousViewModel (
     }
 
     fun getLength() = runBlocking {
-        val resultDeferred = async { lunchiliciousRepository.getMenuItems().size }
+        val resultDeferred = async { lunchiliciousRepo.getMenuItems().size }
         return@runBlocking resultDeferred.await()
     }
 
@@ -110,15 +108,15 @@ class LunchiliciousViewModel (
             ) && validateTempMenuItemInput
 
     fun getAllMenuItems(): Flow<List<MenuItem>> {
-        return lunchiliciousRepository.getAllMenuItemsStream()
+        return lunchiliciousRepo.getAllMenuItemsStream()
     }
 
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                val application = (this[APPLICATION_KEY] as LunchiliciousApplication)
-                val lunchiliciousRepository = application.lunchiliciousRepository
-                LunchiliciousViewModel(lunchiliciousRepository = lunchiliciousRepository)
+                val application = (this[APPLICATION_KEY] as LunchiliciousApp)
+                val lunchiliciousRepository = application.lunchiliciousRepo
+                LunchiliciousViewModel(lunchiliciousRepo = lunchiliciousRepository)
 //                val myRepository =
 //                    (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as
 //                            LunchiliciousApplication).lunchiliciousRepository
@@ -131,7 +129,7 @@ class LunchiliciousViewModel (
                                    o_id: Long) {
         // Work-around for being unable to auto-generate part of a composite primary key
         menuItems.forEachIndexed { idx, menuItem ->
-            lunchiliciousRepository.insertLineItem(
+            lunchiliciousRepo.insertLineItem(
                 LineItem(
                     line_no = (idx + 1).toLong(),
                     o_id = o_id,
@@ -142,27 +140,27 @@ class LunchiliciousViewModel (
     }
 
     fun getAllLineItems(): Flow<List<LineItem>> =
-        lunchiliciousRepository.getAllLineItemsStream()
+        lunchiliciousRepo.getAllLineItemsStream()
 
     suspend fun createNewFoodOrder(totalCost: Double): Long {
-        return lunchiliciousRepository.insertFoodOrder(
+        return lunchiliciousRepo.insertFoodOrder(
             FoodOrder(total_cost = totalCost)
         )
     }
 
     fun getAllFoodOrders(): Flow<List<FoodOrder>> {
-        return lunchiliciousRepository.getAllFoodOrdersStream()
+        return lunchiliciousRepo.getAllFoodOrdersStream()
     }
 
     fun insertFoodOrder(foodOrder: FoodOrder) {
         viewModelScope.launch {
-            lunchiliciousRepository.insertFoodOrder(foodOrder)
+            lunchiliciousRepo.insertFoodOrder(foodOrder)
         }
     }
 
     fun insertMenuItem(menuItem: MenuItem) {
         viewModelScope.launch {
-            lunchiliciousRepository.insertMenuItem(menuItem)
+            lunchiliciousRepo.insertMenuItem(menuItem)
         }
     }
 
@@ -177,7 +175,7 @@ class LunchiliciousViewModel (
         viewModelScope.launch {
             lunchiliciousUiState = LunchiliciousUiState.Loading
             lunchiliciousUiState = try {
-                LunchiliciousUiState.Success(lunchiliciousRepository.getMenuItems())
+                LunchiliciousUiState.Success(lunchiliciousRepo.getMenuItems())
             } catch (e: IOException) {
                 Log.i("IO", e.toString())
                 LunchiliciousUiState.Error

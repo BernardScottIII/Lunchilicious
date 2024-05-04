@@ -1,12 +1,12 @@
 package com.scottb4.lunchilicious.data
 
-import com.scottb4.lunchilicious.domain.LunchiliciousRepository
+import com.scottb4.lunchilicious.domain.LunchiliciousRepo
 import com.scottb4.lunchilicious.network.LunchiliciousClient
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class LunchiliciousRepoImpl (private val lunchiliciousDb: LunchiliciousDatabase): LunchiliciousRepository {
+class LunchiliciousRepoImpl (private val lunchiliciousDb: LunchiliciousDatabase): LunchiliciousRepo {
     override fun getAllMenuItemsStream(): Flow<List<MenuItem>> =
         lunchiliciousDb.menuItemDao().getAllMenuItems()
 
