@@ -5,6 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.scottb4.lunchilicious.ui.LunchiliciousUiState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -22,18 +23,18 @@ abstract class LunchiliciousDatabase : RoomDatabase() {
     companion object {
         @Volatile
         private var Instance: LunchiliciousDatabase? = null
-        val items: Array<MenuItem> = arrayOf(
-            MenuItem(type = "Hoagie", name = "BLT Hoagie", description = "Cold, Onion, lettuce, tomato", unitPrice = 6.95),
-            MenuItem(type = "Hoagie", name = "Cheese Hoagie", description = "Cheese, mayos, lettuce, tomato", unitPrice = 6.95),
-            MenuItem(type = "Pizza", name = "Plain Pizza", description = "cheese and tomato", unitPrice = 9.50),
-            MenuItem(type = "Side", name = "Fries", description = "large hot fries", unitPrice = 2.95),
-            MenuItem(type = "Side", name = "Gravy Fries", description = "Fries with gravy on top", unitPrice = 3.95),
-            MenuItem(type = "Entree", name = "Raspberry Chicken", description = "Fried chicken topped with raspberry sauce and pineapple salsa", unitPrice = 10.00),
-            MenuItem(type = "Entree", name = "Dragon & Phoenix", description = "Shrimp w. garlic sauce & chunk chicken fried in spicy sauce", unitPrice = 12.00),
-            MenuItem(type = "Burrito", name = "Everymeat Burrito", description = "Chicken, beef, pork, lobster, shrimp, fish, duck, lamb, turkey, bison, cornish game hen, goose, pheasant, qual, rabbit, squab, venison, boar, alligator, antelope, caribou, elk, ostrich, turtle, rattlesnake, and kangaroo", unitPrice = 49.95),
-            MenuItem(type = "Hoagie", name = "Beer-Battered Cod Sandwich", description = "Fried cod filet and tartar sauce on brioche bun", unitPrice = 8.95),
-            MenuItem(type = "Pizza", name = "Margherita Pizza", description = "Fresh tomatoes, basil and mozzarella on neopolitan crust", unitPrice = 14.95),
-        )
+//        val items: Array<MenuItem> = arrayOf(
+//            MenuItem(type = "Hoagie", name = "BLT Hoagie", description = "Cold, Onion, lettuce, tomato", unitPrice = 6.95),
+//            MenuItem(type = "Hoagie", name = "Cheese Hoagie", description = "Cheese, mayos, lettuce, tomato", unitPrice = 6.95),
+//            MenuItem(type = "Pizza", name = "Plain Pizza", description = "cheese and tomato", unitPrice = 9.50),
+//            MenuItem(type = "Side", name = "Fries", description = "large hot fries", unitPrice = 2.95),
+//            MenuItem(type = "Side", name = "Gravy Fries", description = "Fries with gravy on top", unitPrice = 3.95),
+//            MenuItem(type = "Entree", name = "Raspberry Chicken", description = "Fried chicken topped with raspberry sauce and pineapple salsa", unitPrice = 10.00),
+//            MenuItem(type = "Entree", name = "Dragon & Phoenix", description = "Shrimp w. garlic sauce & chunk chicken fried in spicy sauce", unitPrice = 12.00),
+//            MenuItem(type = "Burrito", name = "Everymeat Burrito", description = "Chicken, beef, pork, lobster, shrimp, fish, duck, lamb, turkey, bison, cornish game hen, goose, pheasant, qual, rabbit, squab, venison, boar, alligator, antelope, caribou, elk, ostrich, turtle, rattlesnake, and kangaroo", unitPrice = 49.95),
+//            MenuItem(type = "Hoagie", name = "Beer-Battered Cod Sandwich", description = "Fried cod filet and tartar sauce on brioche bun", unitPrice = 8.95),
+//            MenuItem(type = "Pizza", name = "Margherita Pizza", description = "Fresh tomatoes, basil and mozzarella on neopolitan crust", unitPrice = 14.95),
+//        )
 
         fun getDatabase(context: Context): LunchiliciousDatabase {
             return Instance ?: synchronized(this) {
@@ -69,9 +70,9 @@ abstract class LunchiliciousDatabase : RoomDatabase() {
             menuItemDao.deleteAll()
             menuItemDao.deletePrimaryKeyIndex()
 
-            items.forEach { item ->
-                menuItemDao.insert(item)
-            }
+//            items.forEach { item ->
+//                menuItemDao.insert(item)
+//            }
         }
     }
 }

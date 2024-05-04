@@ -21,14 +21,15 @@ import java.text.NumberFormat
 import com.scottb4.lunchilicious.data.MenuItem
 import kotlinx.coroutines.launch
 
-
+/* TODO: Disable Scaffold scroll functionality on thsi screen so the "Lunchilicious" banner doesn't
+*   block the items at the top
+*/
 @Composable
 fun ConfirmationScreen (
     navigateToOrderScreen: () -> Unit,
     modifier: Modifier = Modifier,
     lunchiliciousViewModel: LunchiliciousViewModel = viewModel(factory = LunchiliciousViewModel.Factory)
 ) {
-    val menu by lunchiliciousViewModel.getAllMenuItems().collectAsState(initial = emptyList())
     val candidateLineItems: MutableList<MenuItem> = ArrayList()
     var orderTotal = 0.0
     val scope = rememberCoroutineScope()
@@ -43,15 +44,12 @@ fun ConfirmationScreen (
             verticalArrangement = Arrangement.spacedBy(6.dp),
         ) {
             item { Text(text = "Order Summary") }
-            menu.forEach { menuItem ->
-                if (lunchiliciousViewModel.selectedMenuItems.contains(menuItem)) {
-//                if (lunchiliciousViewModel.checkboxValueList[menuItem.id.toInt()-1]) {
-                    item {
-                        Text(text = "${menuItem.name} => 1 x ${NumberFormat.getCurrencyInstance().format(menuItem.unitPrice)}")
-                    }
-                    candidateLineItems.add(menuItem)
-                    orderTotal += menuItem.unitPrice
+            lunchiliciousViewModel.selectedMenuItems.forEach { menuItem ->
+                item {
+                    Text(text = "(id = ${menuItem.id}) ${menuItem.name} => 1 x ${NumberFormat.getCurrencyInstance().format(menuItem.unitPrice)}")
                 }
+                candidateLineItems.add(menuItem)
+                orderTotal += menuItem.unitPrice
             }
         }
         Row (

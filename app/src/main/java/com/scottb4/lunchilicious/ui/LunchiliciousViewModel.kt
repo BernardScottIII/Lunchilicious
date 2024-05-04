@@ -119,8 +119,8 @@ class LunchiliciousViewModel (
                 LunchiliciousViewModel(lunchiliciousRepo = lunchiliciousRepository)
 //                val myRepository =
 //                    (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as
-//                            LunchiliciousApplication).lunchiliciousRepository
-//                LunchiliciousViewModel(lunchiliciousRepository = myRepository)
+//                            LunchiliciousApplication).lunchiliciousRepo
+//                LunchiliciousViewModel(lunchiliciousRepo = myRepository)
             }
         }
     }
@@ -182,6 +182,9 @@ class LunchiliciousViewModel (
             } catch (e: HttpException) {
                 Log.i("HTTP", e.toString())
                 LunchiliciousUiState.Error
+            }
+            LunchiliciousUiState.Success(lunchiliciousRepo.getMenuItems()).menuItems.forEach {
+                insertMenuItem(it)
             }
         }
     }
