@@ -13,7 +13,7 @@ import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.AP
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.scottb4.lunchilicious.LunchiliciousApp
+import com.scottb4.lunchilicious.LunchiliciousApplication
 import com.scottb4.lunchilicious.data.FoodOrder
 import com.scottb4.lunchilicious.data.LineItem
 import com.scottb4.lunchilicious.data.MenuItem
@@ -114,7 +114,7 @@ class LunchiliciousViewModel (
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                val application = (this[APPLICATION_KEY] as LunchiliciousApp)
+                val application = (this[APPLICATION_KEY] as LunchiliciousApplication)
                 val lunchiliciousRepository = application.lunchiliciousRepo
                 LunchiliciousViewModel(lunchiliciousRepo = lunchiliciousRepository)
 //                val myRepository =
