@@ -189,13 +189,8 @@ class LunchiliciousViewModel (
 
     fun addMenuItem(menuItem: MenuItem) {
         viewModelScope.launch {
-            lunchiliciousRepo.addMenuItem(menuItem)
-            //Log.i("MenuItemAddition", "Added MenuItem ${item.name}")
-            // Retrieve menuItem
-            // add 10 to id (because of prepopulated items)
-            val newMenuItem = lunchiliciousRepo.getMenuItems().last()
+            val newMenuItem = lunchiliciousRepo.addMenuItem(menuItem)
             val newId = newMenuItem.id + 10
-            // add modified menuItem to local DB
             lunchiliciousRepo.insertMenuItem(
                 MenuItem(
                     id = newId,
