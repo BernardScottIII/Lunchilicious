@@ -189,11 +189,30 @@ class LunchiliciousViewModel (
 
     fun addMenuItem(menuItem: MenuItem) {
         viewModelScope.launch {
-            var item = lunchiliciousRepo.addMenuItem(menuItem)
-            Log.i("MenuItemAddition", "Added MenuItem ${item.name}")
+            lunchiliciousRepo.addMenuItem(menuItem)
+            //Log.i("MenuItemAddition", "Added MenuItem ${item.name}")
             // Retrieve menuItem
             // add 10 to id (because of prepopulated items)
+            val newMenuItem = lunchiliciousRepo.getMenuItems().last()
+            val newId = newMenuItem.id + 10
             // add modified menuItem to local DB
+            lunchiliciousRepo.insertMenuItem(
+                MenuItem(
+                    id = newId,
+                    type = newMenuItem.type,
+                    name = newMenuItem.name,
+                    description = newMenuItem.description,
+                    unitPrice = newMenuItem.unitPrice
+                )
+            )
         }
     }
+
+    // Unexpected end of stream error
+//    fun deleteRemoteMenuItem(id: Int) {
+//        viewModelScope.launch {
+//            val removedMenuItem = lunchiliciousRepo.deleteRemoteMenuItem(id)
+//            Log.i("DELETE", "Removed ${removedMenuItem.id}: ${removedMenuItem.name}")
+//        }
+//    }
 }
