@@ -25,4 +25,20 @@ interface LunchiliciousRepo {
     suspend fun getNumMenuItems(): Int
 
     suspend fun getMenuItems(): List<MenuItem>
+
+    suspend fun getMenuItemById(id: Int): MenuItem
+
+    suspend fun addMenuItem(menuItem: MenuItem): MenuItem
+
+    suspend fun updateMenuItem(id: Int, menuItem: MenuItem): MenuItem
+
+    suspend fun deleteRemoteMenuItem(id: Int): MenuItem
+
+    suspend fun getOrderById(orderId: Int): FoodOrder
+
+    suspend fun addFoodOrder(foodOrder: FoodOrder): FoodOrder
+
+    suspend fun getLineItemsByOrderId(orderId: Int): List<LineItem>
+
+    suspend fun addLineItems(lineItems: List<LineItem>): Int
 }

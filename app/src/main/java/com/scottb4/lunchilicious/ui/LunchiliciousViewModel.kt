@@ -17,6 +17,9 @@ import com.scottb4.lunchilicious.data.FoodOrder
 import com.scottb4.lunchilicious.data.LineItem
 import com.scottb4.lunchilicious.data.MenuItem
 import com.scottb4.lunchilicious.domain.LunchiliciousRepo
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -38,6 +41,7 @@ class LunchiliciousViewModel (
     private var _tempMenuItemDesc = mutableStateOf("")
     private var _tempMenuItemPrice = mutableStateOf("")
     private var _validateTempMenuItemInput = mutableStateOf(false)
+
     var lunchiliciousUiState: LunchiliciousUiState by
     mutableStateOf(LunchiliciousUiState.Loading)
         private set
@@ -107,10 +111,6 @@ class LunchiliciousViewModel (
                 val application = (this[APPLICATION_KEY] as LunchiliciousApplication)
                 val lunchiliciousRepository = application.lunchiliciousRepo
                 LunchiliciousViewModel(lunchiliciousRepo = lunchiliciousRepository)
-//                val myRepository =
-//                    (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as
-//                            LunchiliciousApplication).lunchiliciousRepo
-//                LunchiliciousViewModel(lunchiliciousRepo = myRepository)
             }
         }
     }
@@ -184,6 +184,16 @@ class LunchiliciousViewModel (
                     )
                 )
             }
+        }
+    }
+
+    fun addMenuItem(menuItem: MenuItem) {
+        viewModelScope.launch {
+            var item = lunchiliciousRepo.addMenuItem(menuItem)
+            Log.i("MenuItemAddition", "Added MenuItem ${item.name}")
+            // Retrieve menuItem
+            // add 10 to id (because of prepopulated items)
+            // add modified menuItem to local DB
         }
     }
 }

@@ -99,8 +99,9 @@ fun NewItemScreen(
                         lunchiliciousViewModel.tempMenuItemDesc != "" &&
                         lunchiliciousViewModel.tempMenuItemPrice != ""
                     ) {
-                        lunchiliciousViewModel.insertMenuItem(
+                        lunchiliciousViewModel.addMenuItem(
                             MenuItem(
+                                id = -1,
                                 type = lunchiliciousViewModel.tempMenuItemType,
                                 name = lunchiliciousViewModel.tempMenuItemName,
                                 description = lunchiliciousViewModel.tempMenuItemDesc,
