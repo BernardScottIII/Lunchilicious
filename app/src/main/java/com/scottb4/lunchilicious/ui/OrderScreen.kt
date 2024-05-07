@@ -21,8 +21,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 @Composable
 fun OrderScreen (
     lunchiliciousUiState: LunchiliciousUiState,
-    navigateToConfirmationScreen: () -> Unit,
-    navigateToNewItemScreen: () -> Unit,
     modifier: Modifier = Modifier,
     lunchiliciousViewModel: LunchiliciousViewModel = viewModel(factory = LunchiliciousViewModel.Factory),
 ) {
@@ -37,51 +35,5 @@ fun OrderScreen (
         )
         is LunchiliciousUiState.Error -> ErrorScreen( modifier = modifier.fillMaxSize())
         is LunchiliciousUiState.Loading -> LoadingScreen(modifier = modifier.fillMaxSize())
-    }
-    Column (
-        verticalArrangement = Arrangement.Bottom
-    ){
-        Row (
-            verticalAlignment = Alignment.Bottom
-        ){
-            ElevatedButton(
-                enabled = true,
-                shape = CircleShape,
-                modifier = modifier
-                    .fillMaxWidth()
-                    .padding(
-                        top = 24.dp,
-                        end = 24.dp,
-                        bottom = 0.dp,
-                        start = 24.dp
-                    ),
-                onClick = {
-                    navigateToConfirmationScreen()
-                }
-            ) {
-                Text(text = "View Cart")
-            }
-        }
-        Row (
-            verticalAlignment = Alignment.Bottom
-        ){
-            ElevatedButton(
-                enabled = true,
-                shape = CircleShape,
-                modifier = modifier
-                    .fillMaxWidth()
-                    .padding(
-                        top = 6.dp,
-                        end = 24.dp,
-                        bottom = 6.dp,
-                        start = 24.dp
-                    ),
-                onClick = {
-                    navigateToNewItemScreen()
-                }
-            ) {
-                Text(text = "Add Item")
-            }
-        }
     }
 }

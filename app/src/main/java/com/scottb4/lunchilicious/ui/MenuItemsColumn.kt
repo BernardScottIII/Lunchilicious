@@ -1,14 +1,20 @@
 package com.scottb4.lunchilicious.ui
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.scottb4.lunchilicious.data.MenuItem
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MenuItemsColumn(
     menu: List<MenuItem>,
@@ -28,10 +35,7 @@ fun MenuItemsColumn(
 ) {
     LazyColumn (
         modifier = modifier
-            .fillMaxWidth()
-            .padding(
-                bottom = 108.dp
-            ),
+            .fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(6.dp),
         contentPadding = PaddingValues(6.dp)
     ) {
@@ -53,6 +57,30 @@ fun MenuItemsColumn(
                         }
                     }
                 )
+//                Spacer(
+//                    modifier = modifier.weight(1F)
+//                )
+//                ElevatedButton(
+//                    enabled = true,
+//                    shape = CircleShape,
+//                    modifier = modifier
+//                        .padding(6.dp),
+//                    onClick = {
+//                        /* TODO */
+//                    }
+//                ) {
+//                    Text(
+//                        text = if (lunchiliciousViewModel.detailsValueList.contains(menuItem)) {
+//                            "Hide Details"
+//                        } else {
+//                            "Show Details"
+//                        },
+//                        textAlign = TextAlign.End,
+//                        modifier = modifier
+//                            .align(Alignment.CenterVertically)
+//                            .padding(end = 6.dp),
+//                    )
+//                }
                 Text(
                     text = if (lunchiliciousViewModel.detailsValueList.contains(menuItem)) {
                         "Hide Details"

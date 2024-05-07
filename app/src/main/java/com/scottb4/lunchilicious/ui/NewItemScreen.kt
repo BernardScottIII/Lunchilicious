@@ -56,6 +56,27 @@ fun NewItemScreen(
             lunchiliciousViewModel.updateTempMenuItemPrice(it)
         }
         Spacer(modifier = Modifier.weight(1f))
+//        Row (
+//            verticalAlignment = Alignment.Bottom
+//        ){
+//            ElevatedButton(
+//                enabled = true,
+//                shape = CircleShape,
+//                modifier = modifier
+//                    .fillMaxWidth()
+//                    .padding(
+//                        start = 24.dp,
+//                        top = 6.dp,
+//                        end = 24.dp,
+//                        bottom = 6.dp
+//                    ),
+//                onClick = {
+//                    lunchiliciousViewModel.deleteRemoteMenuItem(33)
+//                }
+//            ) {
+//                Text(text = "Remove remote id = 33")
+//            }
+//        }
         Row (
             verticalAlignment = Alignment.Bottom
         ){

@@ -19,14 +19,6 @@ fun StatelessMenuItem(
     modifier: Modifier = Modifier
 ) {
     Row (modifier) {
-//        Image(
-//            painter = painterResource(
-//                id =
-//            ),
-//            contentDescription = "BLT Hoagie",
-//            modifier = modifier
-//                .size(120.dp),
-//        )
         Column (
             modifier = modifier
                 .fillMaxWidth()
@@ -49,7 +41,7 @@ fun StatelessMenuItem(
                 text = "id = ${menuItem.id}",
                 modifier = modifier,
                 fontFamily = FontFamily.SansSerif,
-                fontWeight = FontWeight.ExtraLight
+                fontWeight = FontWeight.Normal
             )
             Text(
                 text = "unitPrice = ${NumberFormat.getCurrencyInstance().format(menuItem.unitPrice)}",
