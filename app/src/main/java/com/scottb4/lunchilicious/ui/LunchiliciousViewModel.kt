@@ -12,16 +12,11 @@ import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.AP
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.scottb4.lunchilicious.LunchiliciousApplication
 import com.scottb4.lunchilicious.data.FoodOrder
 import com.scottb4.lunchilicious.data.LineItem
 import com.scottb4.lunchilicious.data.MenuItem
 import com.scottb4.lunchilicious.domain.LunchiliciousRepo
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -163,7 +158,7 @@ class LunchiliciousViewModel (
         _tempMenuItemPrice.value = ""
     }
 
-    private fun getMenuItems() {
+    fun getMenuItems() {
         viewModelScope.launch {
             lunchiliciousUiState = LunchiliciousUiState.Loading
             lunchiliciousUiState = try {
