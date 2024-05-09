@@ -12,7 +12,7 @@ fun OrderScreen (
     lunchiliciousUiState: LunchiliciousUiState,
     menu: List<MenuItem>,
     modifier: Modifier = Modifier,
-    lunchiliciousViewModel: LunchiliciousViewModel = viewModel(factory = LunchiliciousViewModel.Factory),
+    lunchiliciousViewModel: LunchiliciousViewModel
 ) {
     when (lunchiliciousUiState) {
         is LunchiliciousUiState.Success -> MenuItemsColumn(

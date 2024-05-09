@@ -26,7 +26,7 @@ import com.scottb4.lunchilicious.data.MenuItem
 fun MenuItemsColumn(
     menu: List<MenuItem>,
     modifier: Modifier = Modifier,
-    lunchiliciousViewModel: LunchiliciousViewModel = viewModel(factory = LunchiliciousViewModel.Factory),
+    lunchiliciousViewModel: LunchiliciousViewModel
 ) {
     LazyColumn (
         modifier = modifier
@@ -52,30 +52,6 @@ fun MenuItemsColumn(
                         }
                     }
                 )
-//                Spacer(
-//                    modifier = modifier.weight(1F)
-//                )
-//                ElevatedButton(
-//                    enabled = true,
-//                    shape = CircleShape,
-//                    modifier = modifier
-//                        .padding(6.dp),
-//                    onClick = {
-//                        /* TODO */
-//                    }
-//                ) {
-//                    Text(
-//                        text = if (lunchiliciousViewModel.detailsValueList.contains(menuItem)) {
-//                            "Hide Details"
-//                        } else {
-//                            "Show Details"
-//                        },
-//                        textAlign = TextAlign.End,
-//                        modifier = modifier
-//                            .align(Alignment.CenterVertically)
-//                            .padding(end = 6.dp),
-//                    )
-//                }
                 Text(
                     text = if (lunchiliciousViewModel.showingMenuItemDetails.contains(menuItem)) {
                         "Hide Details"

@@ -24,10 +24,9 @@ import com.scottb4.lunchilicious.data.MenuItem
 @Composable
 fun FoodOrdersColumn(
     orders: List<FoodOrder>,
-    orderItemUiState: OrderItemUiState,
     navigateToOrderDetailsScreen: (orderId: String) -> Unit,
     modifier: Modifier = Modifier,
-    lunchiliciousViewModel: LunchiliciousViewModel = viewModel(factory = LunchiliciousViewModel.Factory),
+    lunchiliciousViewModel: LunchiliciousViewModel
 ) {
     LazyColumn(
         modifier = modifier

@@ -281,12 +281,4 @@ class LunchiliciousViewModel (
 
     fun getMenuItemStream(itemId: Long): Flow<MenuItem> =
         lunchiliciousRepo.getMenuItemStream(itemId)
-
-    // Unexpected end of stream error
-//    fun deleteRemoteMenuItem(id: Int) {
-//        viewModelScope.launch {
-//            val removedMenuItem = lunchiliciousRepo.deleteRemoteMenuItem(id)
-//            Log.i("DELETE", "Removed ${removedMenuItem.id}: ${removedMenuItem.name}")
-//        }
-//    }
 }

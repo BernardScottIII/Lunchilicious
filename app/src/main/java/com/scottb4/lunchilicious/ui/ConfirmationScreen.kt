@@ -29,7 +29,7 @@ import kotlinx.coroutines.launch
 fun ConfirmationScreen (
     navigateToOrderScreen: () -> Unit,
     modifier: Modifier = Modifier,
-    lunchiliciousViewModel: LunchiliciousViewModel = viewModel(factory = LunchiliciousViewModel.Factory)
+    lunchiliciousViewModel: LunchiliciousViewModel
 ) {
     val candidateLineItems: MutableMap<Long, Long> = mutableMapOf()
     var orderTotal = 0.0

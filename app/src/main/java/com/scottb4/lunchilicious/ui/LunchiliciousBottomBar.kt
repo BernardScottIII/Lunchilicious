@@ -20,6 +20,7 @@ fun LunchiliciousBottomBar(
     navigateToConfirmationScreen: () -> Unit,
     navigateToNewItemScreen: () -> Unit,
     navigateToPreviousOrdersScreen: () -> Unit,
+    navigateToFoodOrderSearchForm: () -> Unit
 ) {
     BottomAppBar {
         IconButton(onClick = { navigateToConfirmationScreen() }) {
@@ -46,7 +47,7 @@ fun LunchiliciousBottomBar(
                 contentDescription = "Add New Item"
             )
         }
-        IconButton(onClick = { /* TODO: go to SearchOrders Screen (which is like NewMenuItem) */ }) {
+        IconButton(onClick = { navigateToFoodOrderSearchForm() }) {
             Icon(
                 imageVector = Icons.Filled.Search,
                 contentDescription = "Add New Item"

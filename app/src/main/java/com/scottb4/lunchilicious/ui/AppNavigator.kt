@@ -26,6 +26,7 @@ private object LunchiliciousScreens {
     const val NewItemScreen = "NewItemScreen"
     const val PreviousOrdersScreen = "PreviousOrdersScreen"
     const val OrderDetailsScreen = "OrderDetailsScreen"
+    const val FoodOrderSearchForm = "FoodOrderSearchForm"
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -55,6 +56,9 @@ fun AppNavigator(
                 },
                 navigateToPreviousOrdersScreen = {
                     navController.navigate(LunchiliciousScreens.PreviousOrdersScreen)
+                },
+                navigateToFoodOrderSearchForm = {
+                    navController.navigate(LunchiliciousScreens.FoodOrderSearchForm)
                 },
                 lunchiliciousViewModel = lunchiliciousViewModel
             )
@@ -98,7 +102,6 @@ fun AppNavigator(
                 composable(LunchiliciousScreens.PreviousOrdersScreen) {
                     PreviousOrdersScreen(
                         foodOrderUiState = foodOrderUiState,
-                        orderItemUiState = orderItemUiState,
                         orders = orders,
                         lunchiliciousViewModel = lunchiliciousViewModel,
                         navigateToOrderDetailsScreen = {
@@ -120,7 +123,16 @@ fun AppNavigator(
                             }
                         },
                         orderId = arguments.getString("orderId")?: error("Invalid Item"),
-                        orderItemUiState =orderItemUiState
+                        orderItemUiState = orderItemUiState,
+                        lunchiliciousViewModel = lunchiliciousViewModel
+                    )
+                }
+                composable(LunchiliciousScreens.FoodOrderSearchForm) {
+                    FoodOrderSearchForm(
+                        navigateToOrderDetailsScreen = {
+                            navController.navigate("${LunchiliciousScreens.OrderDetailsScreen}/${it}")
+                        },
+                        lunchiliciousViewModel = lunchiliciousViewModel
                     )
                 }
             }
