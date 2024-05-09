@@ -122,9 +122,9 @@ class LunchiliciousViewModel (
         menuItems: MutableMap<Long, Long>,
         orderId: String
     ) {
-        // Work-around for being unable to auto-generate part of a composite primary key
-        val localLineItems:Array<LineItem> = arrayOf()
-        var idx = 0L
+        val localLineItems:MutableList<LineItem> = mutableListOf()
+//        val localLineItems:Array<LineItem> = arrayOf()
+        var idx = 0L // Work-around for being unable to auto-generate part of a composite primary key
         menuItems.forEach { (menuItemId, quantity) ->
             val newLineItem = LineItem(
                 lineNum = (idx + 1L),
@@ -133,10 +133,10 @@ class LunchiliciousViewModel (
                 quantity = quantity
             )
             lunchiliciousRepo.insertLineItem(newLineItem)
-            localLineItems.plus(newLineItem)
+            localLineItems.add(newLineItem)
             idx += 1
         }
-        lunchiliciousRepo.addLineItems(localLineItems.toList())
+        lunchiliciousRepo.addLineItems(localLineItems)
     }
 
     fun getAllLineItems(): Flow<List<LineItem>> =
