@@ -258,20 +258,18 @@ class LunchiliciousViewModel (
         }
     }
 
-    suspend fun retrieveLineItemsByOrderId(orderId: String): List<LineItem> {
-        return lunchiliciousRepo.getLineItemsByOrderId(orderId)
-    }
-
     fun getLineItemsByOrderId(orderId: String) {
+        Log.i("ORDERID", "getting line items for ($orderId)...")
         viewModelScope.launch {
             orderItemUiState = OrderItemUiState.Loading
             orderItemUiState = try {
                 OrderItemUiState.Success(lunchiliciousRepo.getLineItemsByOrderId(orderId))
             } catch (e: IOException) {
                 OrderItemUiState.Error
-            } catch (e: IOException) {
+            } catch (e: HttpException) {
                 OrderItemUiState.Error
             }
+            Log.i("ORDERID" , "State after try: ${orderItemUiState}")
         }
     }
 

@@ -1,5 +1,6 @@
 package com.scottb4.lunchilicious.ui
 
+import android.util.Log
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -13,15 +14,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 
 private object LunchiliciousScreens {
     const val OrderScreen = "OrderScreen"
     const val ConfirmationScreen = "ConfirmationScreen"
     const val NewItemScreen = "NewItemScreen"
     const val PreviousOrdersScreen = "PreviousOrdersScreen"
+    const val OrderDetailsScreen = "OrderDetailsScreen"
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -96,7 +100,27 @@ fun AppNavigator(
                         foodOrderUiState = foodOrderUiState,
                         orderItemUiState = orderItemUiState,
                         orders = orders,
-                        lunchiliciousViewModel = lunchiliciousViewModel
+                        lunchiliciousViewModel = lunchiliciousViewModel,
+                        navigateToOrderDetailsScreen = {
+                            navController.navigate("${LunchiliciousScreens.OrderDetailsScreen}/${it}")
+                        }
+                    )
+                }
+                composable(
+                    route = "${LunchiliciousScreens.OrderDetailsScreen}/{orderId}",
+                    arguments = listOf(navArgument("orderId") {type = NavType.StringType})
+                ) {
+                    val arguments = requireNotNull(it.arguments)
+                    OrderDetailsScreen(
+                        navigateToOrderScreen = {
+                            navController.navigate(LunchiliciousScreens.PreviousOrdersScreen) {
+                                popUpTo(LunchiliciousScreens.PreviousOrdersScreen) {
+                                    inclusive = true
+                                }
+                            }
+                        },
+                        orderId = arguments.getString("orderId")?: error("Invalid Item"),
+                        orderItemUiState =orderItemUiState
                     )
                 }
             }

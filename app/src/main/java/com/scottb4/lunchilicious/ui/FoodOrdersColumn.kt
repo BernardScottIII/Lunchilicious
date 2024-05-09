@@ -4,10 +4,14 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,6 +27,7 @@ import com.scottb4.lunchilicious.data.FoodOrder
 fun FoodOrdersColumn(
     orders: List<FoodOrder>,
     orderItemUiState: OrderItemUiState,
+    navigateToOrderDetailsScreen: (orderId: String) -> Unit,
     modifier: Modifier = Modifier,
     lunchiliciousViewModel: LunchiliciousViewModel = viewModel(factory = LunchiliciousViewModel.Factory),
 ) {
@@ -39,30 +44,36 @@ fun FoodOrdersColumn(
                     .background(Color(0xFF3DDC97))
             )
             Row {
-                Text(
-                    text = if (lunchiliciousViewModel.showingFoodOrderDetails.contains(foodOrder)) {
-                        "Hide Items"
-                    } else {
-                        "Show Items"
-                    },
-                    textAlign = TextAlign.End,
+                ElevatedButton(
+                    enabled = true,
+                    shape = CircleShape,
                     modifier = modifier
-                        .weight(1F)
-                        .align(Alignment.CenterVertically)
-                        .padding(end = 6.dp),
-                )
-                Switch (
-                    checked = lunchiliciousViewModel.showingFoodOrderDetails.contains(foodOrder),
-                    onCheckedChange = {
-                        if(lunchiliciousViewModel.showingFoodOrderDetails.contains(foodOrder)) {
-                            lunchiliciousViewModel.hideFoodOrderDetails(foodOrder)
-                        }
-                        else {
-                            lunchiliciousViewModel.showFoodOrderDetails(foodOrder)
-
-                        }
+                        .fillMaxWidth()
+                        .padding(
+                            start = 24.dp,
+                            top = 6.dp,
+                            end = 24.dp,
+                            bottom = 6.dp
+                        ),
+                    onClick = {
+                        lunchiliciousViewModel.getLineItemsByOrderId(foodOrder.orderId)
+                        navigateToOrderDetailsScreen(foodOrder.orderId)
                     }
-                )
+                ) {
+                    Text(text = "Show Order Details")
+                }
+//                Switch (
+//                    checked = lunchiliciousViewModel.showingFoodOrderDetails.contains(foodOrder),
+//                    onCheckedChange = {
+//                        if(lunchiliciousViewModel.showingFoodOrderDetails.contains(foodOrder)) {
+//                            lunchiliciousViewModel.hideFoodOrderDetails(foodOrder)
+//                        }
+//                        else {
+//                            lunchiliciousViewModel.showFoodOrderDetails(foodOrder)
+//
+//                        }
+//                    }
+//                )
             }
             if (lunchiliciousViewModel.showingFoodOrderDetails.contains(foodOrder)) {
                 // TODO: make details show every line item

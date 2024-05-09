@@ -10,6 +10,7 @@ import com.scottb4.lunchilicious.data.FoodOrder
 fun PreviousOrdersScreen (
     foodOrderUiState: FoodOrderUiState,
     orderItemUiState: OrderItemUiState,
+    navigateToOrderDetailsScreen: (orderId: String) -> Unit,
     orders: List<FoodOrder>,
     modifier: Modifier = Modifier,
     lunchiliciousViewModel: LunchiliciousViewModel = viewModel(factory = LunchiliciousViewModel.Factory),
@@ -19,7 +20,8 @@ fun PreviousOrdersScreen (
             orders = orders + foodOrderUiState.foodOrders,
             modifier = modifier,
             lunchiliciousViewModel = lunchiliciousViewModel,
-            orderItemUiState = orderItemUiState
+            orderItemUiState = orderItemUiState,
+            navigateToOrderDetailsScreen = navigateToOrderDetailsScreen
         )
         is FoodOrderUiState.Loading -> LoadingScreen(modifier = modifier.fillMaxSize())
         is FoodOrderUiState.Error -> ErrorScreen( modifier = modifier.fillMaxSize())

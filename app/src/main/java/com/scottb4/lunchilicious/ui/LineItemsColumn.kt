@@ -15,6 +15,8 @@ fun LineItemsColumn (
         modifier
     ) {
         lineItems.forEach {
+            /* TODO: implement getMenuItemStream() to retrieve all of the menuItem's info
+                     given a lineItem's itemId*/
             Text(text = it.itemId.toString())
             Text(text = it.lineNum.toString())
             Text(text = it.quantity.toString())
