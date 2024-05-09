@@ -127,7 +127,7 @@ class LunchiliciousViewModel (
         var idx = 0L
         menuItems.forEach { (menuItemId, quantity) ->
             val newLineItem = LineItem(
-                lineNo = (idx + 1L),
+                lineNum = (idx + 1L),
                 orderId = orderId,
                 itemId = menuItemId,
                 quantity = quantity
@@ -136,7 +136,7 @@ class LunchiliciousViewModel (
             localLineItems.plus(newLineItem)
             idx += 1
         }
-//        lunchiliciousRepo.addLineItems(localLineItems.toList())
+        lunchiliciousRepo.addLineItems(localLineItems.toList())
     }
 
     fun getAllLineItems(): Flow<List<LineItem>> =
@@ -151,7 +151,7 @@ class LunchiliciousViewModel (
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),
             totalCost = totalCost
         )
-//        lunchiliciousRepo.addFoodOrder(newFoodOrder)
+        lunchiliciousRepo.addFoodOrder(newFoodOrder)
         lunchiliciousRepo.insertFoodOrder(newFoodOrder)
         return newFoodOrder.orderId
     }

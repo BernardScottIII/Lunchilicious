@@ -26,9 +26,9 @@ interface LineItemDao {
     @Query("DELETE FROM sqlite_sequence WHERE name = 'line_item'")
     suspend fun deletePrimaryKeyIndex()
 
-    @Query("SELECT * from line_item WHERE lineNo = :lineNo")
-    fun getLineItem(lineNo: Int): Flow<LineItem>
+    @Query("SELECT * from line_item WHERE lineNum = :lineNum")
+    fun getLineItem(lineNum: Int): Flow<LineItem>
 
-    @Query("SELECT * from line_item ORDER BY lineNo ASC")
+    @Query("SELECT * from line_item ORDER BY lineNum ASC")
     fun getAllLineItems(): Flow<List<LineItem>>
 }

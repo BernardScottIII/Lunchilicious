@@ -7,7 +7,7 @@ import androidx.room.ForeignKey
 @Entity(
     tableName = "line_item",
     primaryKeys = [
-        "lineNo", "orderId"
+        "lineNum", "orderId"
     ],
     foreignKeys = [
         ForeignKey(
@@ -24,8 +24,8 @@ import androidx.room.ForeignKey
 )
 data class LineItem(
     // TODO: Auto-Generate one attribute of this composite key
-    @ColumnInfo(name = "lineNo")
-    val lineNo: Long = 0,
+    @ColumnInfo(name = "lineNum")
+    val lineNum: Long = 0,
     @ColumnInfo(name = "orderId", index = true)
     val orderId: String,
     @ColumnInfo(name = "itemId", index = true)
