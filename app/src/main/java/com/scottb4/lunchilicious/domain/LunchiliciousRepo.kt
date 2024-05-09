@@ -13,13 +13,13 @@ interface LunchiliciousRepo {
     suspend fun updateMenuItem(menuItem: MenuItem)
     fun getAllFoodOrdersStream(): Flow<List<FoodOrder>>
     fun getFoodOrderStream(id: Int): Flow<FoodOrder?>
-    suspend fun insertFoodOrder(foodOrder: FoodOrder): Long
+    suspend fun insertFoodOrder(foodOrder: FoodOrder): String
     suspend fun deleteFoodOrder(foodOrder: FoodOrder)
     suspend fun updateFoodOrder(foodOrder: FoodOrder)
 
     fun getAllLineItemsStream(): Flow<List<LineItem>>
     fun getLineItemStream(id: Int): Flow<LineItem?>
-    suspend fun insertLineItem(lineItem: LineItem): Long
+    suspend fun insertLineItem(lineItem: LineItem): String
     suspend fun deleteLineItem(lineItem: LineItem)
     suspend fun updateLineItem(lineItem: LineItem)
     suspend fun getNumMenuItems(): Int

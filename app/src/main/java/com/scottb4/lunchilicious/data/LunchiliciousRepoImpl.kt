@@ -28,8 +28,8 @@ class LunchiliciousRepoImpl (private val lunchiliciousDb: LunchiliciousDatabase)
     override fun getFoodOrderStream(id: Int): Flow<FoodOrder?> =
         lunchiliciousDb.foodOrderDao().getFoodOrder(id)
 
-    override suspend fun insertFoodOrder(foodOrder: FoodOrder): Long =
-        lunchiliciousDb.foodOrderDao().insert(foodOrder)
+    override suspend fun insertFoodOrder(foodOrder: FoodOrder): String =
+        lunchiliciousDb.foodOrderDao().insert(foodOrder).toString()
 
     override suspend fun deleteFoodOrder(foodOrder: FoodOrder) =
         lunchiliciousDb.foodOrderDao().delete(foodOrder)
@@ -43,8 +43,8 @@ class LunchiliciousRepoImpl (private val lunchiliciousDb: LunchiliciousDatabase)
     override fun getLineItemStream(id: Int): Flow<LineItem?> =
         lunchiliciousDb.lineItemDao().getLineItem(id)
 
-    override suspend fun insertLineItem(lineItem: LineItem): Long =
-        lunchiliciousDb.lineItemDao().insert(lineItem)
+    override suspend fun insertLineItem(lineItem: LineItem): String =
+        lunchiliciousDb.lineItemDao().insert(lineItem).toString()
 
     override suspend fun deleteLineItem(lineItem: LineItem) =
         lunchiliciousDb.lineItemDao().delete(lineItem)

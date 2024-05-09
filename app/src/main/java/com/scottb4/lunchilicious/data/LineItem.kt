@@ -22,12 +22,12 @@ import androidx.room.ForeignKey
         )
     ]
 )
-data class LineItem (
+data class LineItem(
     // TODO: Auto-Generate one attribute of this composite key
     @ColumnInfo(name = "lineNo")
     val lineNo: Long = 0,
     @ColumnInfo(name = "orderId", index = true)
-    val orderId: Long,
+    val orderId: String,
     @ColumnInfo(name = "itemId", index = true)
     val itemId: Long,
     val quantity: Long

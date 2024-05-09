@@ -4,7 +4,6 @@ import android.net.http.HttpException
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -21,7 +20,6 @@ import com.scottb4.lunchilicious.data.LineItem
 import com.scottb4.lunchilicious.data.MenuItem
 import com.scottb4.lunchilicious.domain.LunchiliciousRepo
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.io.IOException
 import java.time.LocalDateTime
@@ -120,15 +118,17 @@ class LunchiliciousViewModel (
         }
     }
 
-    suspend fun insertAllLineItems(menuItems: MutableMap<Long, Long>,
-                                   o_id: Long) {
+    suspend fun insertAllLineItems(
+        menuItems: MutableMap<Long, Long>,
+        orderId: String
+    ) {
         // Work-around for being unable to auto-generate part of a composite primary key
         val localLineItems:Array<LineItem> = arrayOf()
         var idx = 0L
         menuItems.forEach { (menuItemId, quantity) ->
             val newLineItem = LineItem(
                 lineNo = (idx + 1L),
-                orderId = o_id,
+                orderId = orderId,
                 itemId = menuItemId,
                 quantity = quantity
             )
@@ -143,14 +143,17 @@ class LunchiliciousViewModel (
         lunchiliciousRepo.getAllLineItemsStream()
 
     @RequiresApi(Build.VERSION_CODES.O)
-    suspend fun createNewFoodOrder(totalCost: Double): Long {
+    suspend fun createNewFoodOrder(totalCost: Double): String {
         val newFoodOrder = FoodOrder(
-            orderDate = USERID + "-" + LocalDateTime.now()
+            orderId = USERID + "-" + LocalDateTime.now()
                 .format(DateTimeFormatter.ofPattern("MM-dd-HH-mm-ss")),
+            orderDate = LocalDateTime.now()
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),
             totalCost = totalCost
         )
 //        lunchiliciousRepo.addFoodOrder(newFoodOrder)
-        return lunchiliciousRepo.insertFoodOrder(newFoodOrder)
+        lunchiliciousRepo.insertFoodOrder(newFoodOrder)
+        return newFoodOrder.orderId
     }
 
 
