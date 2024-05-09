@@ -92,4 +92,7 @@ class LunchiliciousRepoImpl (private val lunchiliciousDb: LunchiliciousDatabase)
 
     override suspend fun addLineItems(lineItems: List<LineItem>): Int =
         lunchiliciousClient.addLineItems(lineItems)
+
+    override suspend fun getAllOrders(): List<FoodOrder> =
+        lunchiliciousClient.getAllOrders()
 }

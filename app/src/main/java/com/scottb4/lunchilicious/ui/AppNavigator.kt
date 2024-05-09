@@ -17,10 +17,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 
-private object LunchiliciousScreen {
+private object LunchiliciousScreens {
     const val OrderScreen = "OrderScreen"
     const val ConfirmationScreen = "ConfirmationScreen"
     const val NewItemScreen = "NewItemScreen"
+    const val PreviousOrdersScreen = "PreviousOrdersScreen"
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -30,8 +31,12 @@ fun AppNavigator(
 ) {
     val navController:NavHostController = rememberNavController()
     val lunchiliciousUiState = lunchiliciousViewModel.lunchiliciousUiState
+    val foodOrderUiState = lunchiliciousViewModel.foodOrderUiState
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     val menu by lunchiliciousViewModel.getAllMenuItems().collectAsState(initial = emptyList())
+    val orders by lunchiliciousViewModel.getAllFoodOrders().collectAsState(initial = emptyList())
+
+
 
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -40,10 +45,13 @@ fun AppNavigator(
         ) },
         bottomBar = { LunchiliciousBottomBar(
                 navigateToConfirmationScreen = {
-                    navController.navigate(LunchiliciousScreen.ConfirmationScreen)
+                    navController.navigate(LunchiliciousScreens.ConfirmationScreen)
                 },
                 navigateToNewItemScreen = {
-                    navController.navigate(LunchiliciousScreen.NewItemScreen)
+                    navController.navigate(LunchiliciousScreens.NewItemScreen)
+                },
+                navigateToPreviousOrdersScreen = {
+                    navController.navigate(LunchiliciousScreens.PreviousOrdersScreen)
                 },
                 lunchiliciousViewModel = lunchiliciousViewModel
             )
@@ -59,16 +67,16 @@ fun AppNavigator(
         ) {
             NavHost(
                 navController = navController,
-                startDestination = LunchiliciousScreen.OrderScreen
+                startDestination = LunchiliciousScreens.OrderScreen
             ) {
-                composable(LunchiliciousScreen.OrderScreen) {
+                composable(LunchiliciousScreens.OrderScreen) {
                     OrderScreen(
                         lunchiliciousUiState = lunchiliciousUiState,
                         lunchiliciousViewModel = lunchiliciousViewModel,
                         menu = menu
                     )
                 }
-                composable(LunchiliciousScreen.ConfirmationScreen) {
+                composable(LunchiliciousScreens.ConfirmationScreen) {
                     ConfirmationScreen(
                         lunchiliciousViewModel = lunchiliciousViewModel,
                         navigateToOrderScreen = {
@@ -76,11 +84,18 @@ fun AppNavigator(
                         }
                     )
                 }
-                composable(LunchiliciousScreen.NewItemScreen) {
+                composable(LunchiliciousScreens.NewItemScreen) {
                     NewItemScreen(
                         navigateToOrderScreen = {
                             navController.popBackStack()
                         },
+                        lunchiliciousViewModel = lunchiliciousViewModel
+                    )
+                }
+                composable(LunchiliciousScreens.PreviousOrdersScreen) {
+                    PreviousOrdersScreen(
+                        foodOrderUiState = foodOrderUiState,
+                        orders = orders,
                         lunchiliciousViewModel = lunchiliciousViewModel
                     )
                 }

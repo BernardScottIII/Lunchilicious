@@ -14,9 +14,6 @@ fun OrderScreen (
     modifier: Modifier = Modifier,
     lunchiliciousViewModel: LunchiliciousViewModel = viewModel(factory = LunchiliciousViewModel.Factory),
 ) {
-
-    //val menu by lunchiliciousViewModel.getAllMenuItems().collectAsState(initial = emptyList())
-
     when (lunchiliciousUiState) {
         is LunchiliciousUiState.Success -> MenuItemsColumn(
             menu = menu + lunchiliciousUiState.menuItems,

@@ -31,24 +31,36 @@ sealed interface LunchiliciousUiState {
     object Loading : LunchiliciousUiState
 }
 
+sealed interface FoodOrderUiState {
+    data class Success(val foodOrders: List<FoodOrder>) : FoodOrderUiState
+    object Error : FoodOrderUiState
+    object Loading : FoodOrderUiState
+}
+
 class LunchiliciousViewModel (
     private val lunchiliciousRepo: LunchiliciousRepo
 ): ViewModel() {
 
     private var _selectedMenuItems = mutableStateListOf<MenuItem>()
-    private var _detailsValueList = mutableStateListOf<MenuItem>()
+    private var _showingMenuItemDetails = mutableStateListOf<MenuItem>()
     private var _tempMenuItemType = mutableStateOf("")
     private var _tempMenuItemName = mutableStateOf("")
     private var _tempMenuItemDesc = mutableStateOf("")
     private var _tempMenuItemPrice = mutableStateOf("")
     private var _validateTempMenuItemInput = mutableStateOf(false)
+    private var _showingFoodOrderDetails = mutableStateListOf<FoodOrder>()
 
     var lunchiliciousUiState: LunchiliciousUiState by
     mutableStateOf(LunchiliciousUiState.Loading)
         private set
 
+    var foodOrderUiState: FoodOrderUiState by
+    mutableStateOf(FoodOrderUiState.Loading)
+        private set
+
     init {
         getMenuItems()
+        getAllOrders()
     }
 
     fun selectMenuItem(menuItem: MenuItem) {
@@ -60,11 +72,19 @@ class LunchiliciousViewModel (
     }
 
     fun showMenuItemDetails(menuItem: MenuItem) {
-        _detailsValueList.add(menuItem)
+        _showingMenuItemDetails.add(menuItem)
     }
 
     fun hideMenuItemDetails(menuItem: MenuItem) {
-        _detailsValueList.remove(menuItem)
+        _showingMenuItemDetails.remove(menuItem)
+    }
+
+    fun showFoodOrderDetails(foodOrder: FoodOrder) {
+        _showingFoodOrderDetails.add(foodOrder)
+    }
+
+    fun hideFoodOrderDetails(foodOrder: FoodOrder) {
+        _showingFoodOrderDetails.remove(foodOrder)
     }
 
     fun setTempMenuItemValidation(status: Boolean) {
@@ -72,12 +92,13 @@ class LunchiliciousViewModel (
     }
 
     val selectedMenuItems = _selectedMenuItems
-    val detailsValueList = _detailsValueList
+    val showingMenuItemDetails = _showingMenuItemDetails
     val tempMenuItemType by _tempMenuItemType
     val tempMenuItemName by _tempMenuItemName
     val tempMenuItemDesc by _tempMenuItemDesc
     val tempMenuItemPrice by _tempMenuItemPrice
     val validateTempMenuItemInput by _validateTempMenuItemInput
+    val showingFoodOrderDetails = _showingFoodOrderDetails
 
     fun updateTempMenuItemType(type: String) {
         _tempMenuItemType.value = type
@@ -186,7 +207,6 @@ class LunchiliciousViewModel (
             lunchiliciousUiState = try {
                 LunchiliciousUiState.Success(lunchiliciousRepo.getMenuItems())
             } catch (e: IOException) {
-                Log.i("IO", e.toString())
                 LunchiliciousUiState.Error
             } catch (e: HttpException) {
                 Log.i("HTTP", e.toString())
@@ -200,6 +220,28 @@ class LunchiliciousViewModel (
                         name = it.name,
                         description = it.description,
                         unitPrice = it.unitPrice
+                    )
+                )
+            }
+        }
+    }
+
+    fun getAllOrders() {
+        viewModelScope.launch {
+            foodOrderUiState = FoodOrderUiState.Loading
+            foodOrderUiState = try {
+                FoodOrderUiState.Success(lunchiliciousRepo.getAllOrders())
+            } catch (e: IOException) {
+                FoodOrderUiState.Error
+            } catch (e: HttpException) {
+                FoodOrderUiState.Error
+            }
+            FoodOrderUiState.Success(lunchiliciousRepo.getAllOrders()).foodOrders.forEach {
+                insertFoodOrder(
+                    FoodOrder(
+                        orderId = it.orderId,
+                        orderDate = it.orderDate,
+                        totalCost = it.totalCost
                     )
                 )
             }

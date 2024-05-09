@@ -49,6 +49,9 @@ interface LunchiliciousClient {
 
     @POST("/lunchilicious/addlineitems")
     suspend fun addLineItems(@Body lineItems: List<LineItem>): Int
+
+    @GET("/lunchilicious/orders")
+    suspend fun getAllOrders(): List<FoodOrder>
 }
 
 private var lunchiliciousClient: LunchiliciousClient = retrofit.create(LunchiliciousClient::class.java)

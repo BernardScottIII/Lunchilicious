@@ -41,4 +41,6 @@ interface LunchiliciousRepo {
     suspend fun getLineItemsByOrderId(orderId: Int): List<LineItem>
 
     suspend fun addLineItems(lineItems: List<LineItem>): Int
+
+    suspend fun getAllOrders(): List<FoodOrder>
 }
