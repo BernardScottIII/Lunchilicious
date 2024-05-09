@@ -27,7 +27,7 @@ interface MenuItemDao {
     suspend fun deletePrimaryKeyIndex()
 
     @Query("SELECT * from menu_item WHERE id = :id")
-    fun getMenuItem(id: Int): Flow<MenuItem>
+    fun getMenuItem(id: Long): Flow<MenuItem>
 
     @Query("SELECT * from menu_item ORDER BY name ASC")
     fun getAllMenuItems(): Flow<List<MenuItem>>

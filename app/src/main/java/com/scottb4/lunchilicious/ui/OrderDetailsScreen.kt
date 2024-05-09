@@ -28,7 +28,8 @@ fun OrderDetailsScreen (
 
     when (orderItemUiState) {
         is OrderItemUiState.Success -> LineItemsColumn(
-            lineItems = orderItemUiState.lineItems
+            lineItems = orderItemUiState.lineItems,
+            lunchiliciousViewModel = lunchiliciousViewModel
         )
         is OrderItemUiState.Loading -> LoadingScreen(modifier = modifier.fillMaxSize())
         is OrderItemUiState.Error -> ErrorScreen(modifier = modifier.fillMaxSize())

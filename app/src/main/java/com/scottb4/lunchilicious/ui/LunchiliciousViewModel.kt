@@ -55,7 +55,6 @@ class LunchiliciousViewModel (
     private var _tempMenuItemDesc = mutableStateOf("")
     private var _tempMenuItemPrice = mutableStateOf("")
     private var _validateTempMenuItemInput = mutableStateOf(false)
-    private var _showingFoodOrderDetails = mutableStateListOf<FoodOrder>()
 
     var lunchiliciousUiState: LunchiliciousUiState by
     mutableStateOf(LunchiliciousUiState.Loading)
@@ -90,14 +89,6 @@ class LunchiliciousViewModel (
         _showingMenuItemDetails.remove(menuItem)
     }
 
-    fun showFoodOrderDetails(foodOrder: FoodOrder) {
-        _showingFoodOrderDetails.add(foodOrder)
-    }
-
-    fun hideFoodOrderDetails(foodOrder: FoodOrder) {
-        _showingFoodOrderDetails.remove(foodOrder)
-    }
-
     fun setTempMenuItemValidation(status: Boolean) {
         _validateTempMenuItemInput.value = status
     }
@@ -109,7 +100,6 @@ class LunchiliciousViewModel (
     val tempMenuItemDesc by _tempMenuItemDesc
     val tempMenuItemPrice by _tempMenuItemPrice
     val validateTempMenuItemInput by _validateTempMenuItemInput
-    val showingFoodOrderDetails = _showingFoodOrderDetails
 
     fun updateTempMenuItemType(type: String) {
         _tempMenuItemType.value = type
@@ -288,6 +278,9 @@ class LunchiliciousViewModel (
             )
         }
     }
+
+    fun getMenuItemStream(itemId: Long): Flow<MenuItem> =
+        lunchiliciousRepo.getMenuItemStream(itemId)
 
     // Unexpected end of stream error
 //    fun deleteRemoteMenuItem(id: Int) {

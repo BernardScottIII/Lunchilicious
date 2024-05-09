@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface LunchiliciousRepo {
     fun getAllMenuItemsStream(): Flow<List<MenuItem>>
-    fun getMenuItemStream(id: Int): Flow<MenuItem?>
+    fun getMenuItemStream(id: Long): Flow<MenuItem>
     suspend fun insertMenuItem(menuItem: MenuItem): Long
     suspend fun deleteMenuItem(menuItem: MenuItem)
     suspend fun updateMenuItem(menuItem: MenuItem)

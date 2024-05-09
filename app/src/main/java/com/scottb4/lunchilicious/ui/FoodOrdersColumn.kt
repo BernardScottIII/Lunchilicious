@@ -10,18 +10,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.ElevatedButton
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.scottb4.lunchilicious.data.FoodOrder
+import com.scottb4.lunchilicious.data.MenuItem
 
 @Composable
 fun FoodOrdersColumn(
@@ -44,11 +42,11 @@ fun FoodOrdersColumn(
                     .background(Color(0xFF3DDC97))
             )
             Row {
+                Spacer(modifier.weight(1F))
                 ElevatedButton(
                     enabled = true,
                     shape = CircleShape,
                     modifier = modifier
-                        .fillMaxWidth()
                         .padding(
                             start = 24.dp,
                             top = 6.dp,
@@ -62,21 +60,6 @@ fun FoodOrdersColumn(
                 ) {
                     Text(text = "Show Order Details")
                 }
-//                Switch (
-//                    checked = lunchiliciousViewModel.showingFoodOrderDetails.contains(foodOrder),
-//                    onCheckedChange = {
-//                        if(lunchiliciousViewModel.showingFoodOrderDetails.contains(foodOrder)) {
-//                            lunchiliciousViewModel.hideFoodOrderDetails(foodOrder)
-//                        }
-//                        else {
-//                            lunchiliciousViewModel.showFoodOrderDetails(foodOrder)
-//
-//                        }
-//                    }
-//                )
-            }
-            if (lunchiliciousViewModel.showingFoodOrderDetails.contains(foodOrder)) {
-                // TODO: make details show every line item
             }
         }
     }

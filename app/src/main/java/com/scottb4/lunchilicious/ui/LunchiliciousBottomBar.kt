@@ -6,6 +6,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
@@ -14,6 +15,7 @@ import androidx.compose.runtime.Composable
 
 @Composable
 fun LunchiliciousBottomBar(
+    // TODO: just pass the navController? Look at ppt 5
     lunchiliciousViewModel: LunchiliciousViewModel,
     navigateToConfirmationScreen: () -> Unit,
     navigateToNewItemScreen: () -> Unit,
@@ -41,6 +43,12 @@ fun LunchiliciousBottomBar(
         IconButton(onClick = { navigateToPreviousOrdersScreen() }) {
             Icon(
                 imageVector = Icons.Filled.DateRange,
+                contentDescription = "Add New Item"
+            )
+        }
+        IconButton(onClick = { /* TODO: go to SearchOrders Screen (which is like NewMenuItem) */ }) {
+            Icon(
+                imageVector = Icons.Filled.Search,
                 contentDescription = "Add New Item"
             )
         }
