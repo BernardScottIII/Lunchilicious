@@ -7,27 +7,28 @@ import androidx.room.ForeignKey
 @Entity(
     tableName = "line_item",
     primaryKeys = [
-        "line_no", "o_id"
+        "lineNo", "orderId"
     ],
     foreignKeys = [
         ForeignKey(
             entity = FoodOrder::class,
-            parentColumns = ["id"],
-            childColumns = ["o_id"]
+            parentColumns = ["orderId"],
+            childColumns = ["orderId"]
         ),
         ForeignKey(
             entity = MenuItem::class,
             parentColumns = ["id"],
-            childColumns = ["item_id"]
+            childColumns = ["itemId"]
         )
     ]
 )
 data class LineItem (
     // TODO: Auto-Generate one attribute of this composite key
-    @ColumnInfo(name = "line_no")
-    val line_no: Long = 0,
-    @ColumnInfo(name = "o_id", index = true)
-    val o_id: Long,
-    @ColumnInfo(name = "item_id", index = true)
-    val item_id: Long,
+    @ColumnInfo(name = "lineNo")
+    val lineNo: Long = 0,
+    @ColumnInfo(name = "orderId", index = true)
+    val orderId: Long,
+    @ColumnInfo(name = "itemId", index = true)
+    val itemId: Long,
+    val quantity: Long
 )

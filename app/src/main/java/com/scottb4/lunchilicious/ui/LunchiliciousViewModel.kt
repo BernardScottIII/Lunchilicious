@@ -1,7 +1,10 @@
 package com.scottb4.lunchilicious.ui
 
 import android.net.http.HttpException
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -18,8 +21,11 @@ import com.scottb4.lunchilicious.data.LineItem
 import com.scottb4.lunchilicious.data.MenuItem
 import com.scottb4.lunchilicious.domain.LunchiliciousRepo
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.io.IOException
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 sealed interface LunchiliciousUiState {
     data class Success(val menuItems: List<MenuItem>) : LunchiliciousUiState
@@ -103,6 +109,8 @@ class LunchiliciousViewModel (
     }
 
     companion object {
+        private const val USERID = "scottb4"
+
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 val application = (this[APPLICATION_KEY] as LunchiliciousApplication)
@@ -112,30 +120,41 @@ class LunchiliciousViewModel (
         }
     }
 
-    suspend fun insertAllLineItems(menuItems: MutableList<MenuItem>,
+    suspend fun insertAllLineItems(menuItems: MutableMap<Long, Long>,
                                    o_id: Long) {
         // Work-around for being unable to auto-generate part of a composite primary key
-        menuItems.forEachIndexed { idx, menuItem ->
-            lunchiliciousRepo.insertLineItem(
-                LineItem(
-                    line_no = (idx + 1).toLong(),
-                    o_id = o_id,
-                    item_id = menuItem.id
-                )
+        val localLineItems:Array<LineItem> = arrayOf()
+        var idx = 0L
+        menuItems.forEach { (menuItemId, quantity) ->
+            val newLineItem = LineItem(
+                lineNo = (idx + 1L),
+                orderId = o_id,
+                itemId = menuItemId,
+                quantity = quantity
             )
+            lunchiliciousRepo.insertLineItem(newLineItem)
+            localLineItems.plus(newLineItem)
+            idx += 1
         }
+//        lunchiliciousRepo.addLineItems(localLineItems.toList())
     }
 
     fun getAllLineItems(): Flow<List<LineItem>> =
         lunchiliciousRepo.getAllLineItemsStream()
 
+    @RequiresApi(Build.VERSION_CODES.O)
     suspend fun createNewFoodOrder(totalCost: Double): Long {
-        return lunchiliciousRepo.insertFoodOrder(
-            FoodOrder(total_cost = totalCost)
+        val newFoodOrder = FoodOrder(
+            orderDate = USERID + "-" + LocalDateTime.now()
+                .format(DateTimeFormatter.ofPattern("MM-dd-HH-mm-ss")),
+            totalCost = totalCost
         )
+//        lunchiliciousRepo.addFoodOrder(newFoodOrder)
+        return lunchiliciousRepo.insertFoodOrder(newFoodOrder)
     }
 
-    fun getAllFoodOrders(): Flow<List<FoodOrder>> {
+
+        fun getAllFoodOrders(): Flow<List<FoodOrder>> {
         return lunchiliciousRepo.getAllFoodOrdersStream()
     }
 

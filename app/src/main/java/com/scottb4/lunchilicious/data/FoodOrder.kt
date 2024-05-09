@@ -5,6 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "food_order")
 data class FoodOrder (
-    @PrimaryKey(autoGenerate = true) val id: Long = 0,
-    val total_cost: Double
+    @PrimaryKey(autoGenerate = true) val orderId: Long = 0,
+    val orderDate: String,
+    val totalCost: Double
 )

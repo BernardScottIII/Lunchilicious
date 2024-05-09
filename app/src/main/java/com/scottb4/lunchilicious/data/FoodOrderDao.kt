@@ -26,9 +26,9 @@ interface FoodOrderDao {
     @Query("DELETE FROM sqlite_sequence WHERE name = 'food_order'")
     suspend fun deletePrimaryKeyIndex()
 
-    @Query("SELECT * from food_order WHERE id = :id")
-    fun getFoodOrder(id: Int): Flow<FoodOrder>
+    @Query("SELECT * from food_order WHERE orderId = :orderId")
+    fun getFoodOrder(orderId: Int): Flow<FoodOrder>
 
-    @Query("SELECT * from food_order ORDER BY id ASC")
+    @Query("SELECT * from food_order ORDER BY orderId ASC")
     fun getAllFoodOrders(): Flow<List<FoodOrder>>
 }
