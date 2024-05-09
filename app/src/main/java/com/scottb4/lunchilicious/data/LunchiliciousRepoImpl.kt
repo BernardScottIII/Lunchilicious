@@ -81,13 +81,13 @@ class LunchiliciousRepoImpl (private val lunchiliciousDb: LunchiliciousDatabase)
     override suspend fun deleteRemoteMenuItem(id: Int): MenuItem =
         lunchiliciousClient.deleteRemoteMenuItem(id)
 
-    override suspend fun getOrderById(orderId: Int): FoodOrder =
+    override suspend fun getOrderById(orderId: String): FoodOrder =
         lunchiliciousClient.getOrderById(orderId)
 
     override suspend fun addFoodOrder(foodOrder: FoodOrder): FoodOrder =
         lunchiliciousClient.addFoodOrder(foodOrder)
 
-    override suspend fun getLineItemsByOrderId(orderId: Int): List<LineItem> =
+    override suspend fun getLineItemsByOrderId(orderId: String): List<LineItem> =
         lunchiliciousClient.getLineItemsByOrderId(orderId)
 
     override suspend fun addLineItems(lineItems: List<LineItem>): Int =

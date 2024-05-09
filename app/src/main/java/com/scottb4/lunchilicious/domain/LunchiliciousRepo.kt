@@ -34,11 +34,11 @@ interface LunchiliciousRepo {
 
     suspend fun deleteRemoteMenuItem(id: Int): MenuItem
 
-    suspend fun getOrderById(orderId: Int): FoodOrder
+    suspend fun getOrderById(orderId: String): FoodOrder
 
     suspend fun addFoodOrder(foodOrder: FoodOrder): FoodOrder
 
-    suspend fun getLineItemsByOrderId(orderId: Int): List<LineItem>
+    suspend fun getLineItemsByOrderId(orderId: String): List<LineItem>
 
     suspend fun addLineItems(lineItems: List<LineItem>): Int
 

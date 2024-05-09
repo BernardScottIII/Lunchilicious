@@ -32,11 +32,10 @@ fun AppNavigator(
     val navController:NavHostController = rememberNavController()
     val lunchiliciousUiState = lunchiliciousViewModel.lunchiliciousUiState
     val foodOrderUiState = lunchiliciousViewModel.foodOrderUiState
+    val orderItemUiState = lunchiliciousViewModel.orderItemUiState
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     val menu by lunchiliciousViewModel.getAllMenuItems().collectAsState(initial = emptyList())
     val orders by lunchiliciousViewModel.getAllFoodOrders().collectAsState(initial = emptyList())
-
-
 
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -95,6 +94,7 @@ fun AppNavigator(
                 composable(LunchiliciousScreens.PreviousOrdersScreen) {
                     PreviousOrdersScreen(
                         foodOrderUiState = foodOrderUiState,
+                        orderItemUiState = orderItemUiState,
                         orders = orders,
                         lunchiliciousViewModel = lunchiliciousViewModel
                     )

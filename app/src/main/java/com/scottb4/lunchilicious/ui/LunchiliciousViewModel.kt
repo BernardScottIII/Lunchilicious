@@ -32,9 +32,16 @@ sealed interface LunchiliciousUiState {
 }
 
 sealed interface FoodOrderUiState {
-    data class Success(val foodOrders: List<FoodOrder>) : FoodOrderUiState
+    data class Success(
+        val foodOrders: List<FoodOrder>) : FoodOrderUiState
     object Error : FoodOrderUiState
     object Loading : FoodOrderUiState
+}
+
+sealed interface OrderItemUiState {
+    data class Success(val lineItems: List<LineItem>): OrderItemUiState
+    object Error: OrderItemUiState
+    object Loading: OrderItemUiState
 }
 
 class LunchiliciousViewModel (
@@ -56,6 +63,10 @@ class LunchiliciousViewModel (
 
     var foodOrderUiState: FoodOrderUiState by
     mutableStateOf(FoodOrderUiState.Loading)
+        private set
+
+    var orderItemUiState: OrderItemUiState by
+    mutableStateOf(OrderItemUiState.Loading)
         private set
 
     init {
@@ -144,7 +155,6 @@ class LunchiliciousViewModel (
         orderId: String
     ) {
         val localLineItems:MutableList<LineItem> = mutableListOf()
-//        val localLineItems:Array<LineItem> = arrayOf()
         var idx = 0L // Work-around for being unable to auto-generate part of a composite primary key
         menuItems.forEach { (menuItemId, quantity) ->
             val newLineItem = LineItem(
@@ -178,7 +188,7 @@ class LunchiliciousViewModel (
     }
 
 
-        fun getAllFoodOrders(): Flow<List<FoodOrder>> {
+    fun getAllFoodOrders(): Flow<List<FoodOrder>> {
         return lunchiliciousRepo.getAllFoodOrdersStream()
     }
 
@@ -244,6 +254,23 @@ class LunchiliciousViewModel (
                         totalCost = it.totalCost
                     )
                 )
+            }
+        }
+    }
+
+    suspend fun retrieveLineItemsByOrderId(orderId: String): List<LineItem> {
+        return lunchiliciousRepo.getLineItemsByOrderId(orderId)
+    }
+
+    fun getLineItemsByOrderId(orderId: String) {
+        viewModelScope.launch {
+            orderItemUiState = OrderItemUiState.Loading
+            orderItemUiState = try {
+                OrderItemUiState.Success(lunchiliciousRepo.getLineItemsByOrderId(orderId))
+            } catch (e: IOException) {
+                OrderItemUiState.Error
+            } catch (e: IOException) {
+                OrderItemUiState.Error
             }
         }
     }

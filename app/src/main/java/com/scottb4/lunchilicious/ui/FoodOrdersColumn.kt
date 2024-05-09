@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,6 +22,7 @@ import com.scottb4.lunchilicious.data.FoodOrder
 @Composable
 fun FoodOrdersColumn(
     orders: List<FoodOrder>,
+    orderItemUiState: OrderItemUiState,
     modifier: Modifier = Modifier,
     lunchiliciousViewModel: LunchiliciousViewModel = viewModel(factory = LunchiliciousViewModel.Factory),
 ) {
@@ -41,9 +41,9 @@ fun FoodOrdersColumn(
             Row {
                 Text(
                     text = if (lunchiliciousViewModel.showingFoodOrderDetails.contains(foodOrder)) {
-                        "Hide Details"
+                        "Hide Items"
                     } else {
-                        "Show Details"
+                        "Show Items"
                     },
                     textAlign = TextAlign.End,
                     modifier = modifier
@@ -59,17 +59,13 @@ fun FoodOrdersColumn(
                         }
                         else {
                             lunchiliciousViewModel.showFoodOrderDetails(foodOrder)
+
                         }
                     }
                 )
             }
-            // TODO: make details show every line item
             if (lunchiliciousViewModel.showingFoodOrderDetails.contains(foodOrder)) {
-                Text(
-                    text = foodOrder.orderDate,
-                    modifier = modifier
-                        .padding(bottom = 6.dp)
-                )
+                // TODO: make details show every line item
             }
         }
     }

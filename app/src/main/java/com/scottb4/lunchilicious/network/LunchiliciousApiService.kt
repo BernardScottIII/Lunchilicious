@@ -39,13 +39,13 @@ interface LunchiliciousClient {
     suspend fun deleteRemoteMenuItem(@Query("id") id: Int): MenuItem
 
     @GET("/lunchilicious/order?")
-    suspend fun getOrderById(@Query("orderId") orderId: Int): FoodOrder
+    suspend fun getOrderById(@Query("orderId") orderId: String): FoodOrder
 
     @POST("/lunchilicious/addorder")
     suspend fun addFoodOrder(@Body foodOrder: FoodOrder): FoodOrder
 
     @GET("/lunchilicious/lineitems?")
-    suspend fun getLineItemsByOrderId(@Query("orderId") orderId: Int): List<LineItem>
+    suspend fun getLineItemsByOrderId(@Query("orderId") orderId: String): List<LineItem>
 
     @POST("/lunchilicious/addlineitems")
     suspend fun addLineItems(@Body lineItems: List<LineItem>): Int
