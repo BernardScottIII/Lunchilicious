@@ -38,19 +38,19 @@ fun LunchiliciousBottomBar(
         IconButton(onClick = { lunchiliciousViewModel.getMenuItems() }) {
             Icon(
                 imageVector = Icons.Filled.Refresh,
-                contentDescription = "Add New Item"
+                contentDescription = "Refresh Menu Items"
             )
         }
         IconButton(onClick = { navigateToPreviousOrdersScreen() }) {
             Icon(
                 imageVector = Icons.Filled.DateRange,
-                contentDescription = "Add New Item"
+                contentDescription = "View Previous Orders"
             )
         }
         IconButton(onClick = { navigateToFoodOrderSearchForm() }) {
             Icon(
                 imageVector = Icons.Filled.Search,
-                contentDescription = "Add New Item"
+                contentDescription = "Search for Previous Order"
             )
         }
     }

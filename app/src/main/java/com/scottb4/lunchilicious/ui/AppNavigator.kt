@@ -1,6 +1,5 @@
 package com.scottb4.lunchilicious.ui
 
-import android.util.Log
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -40,7 +39,6 @@ fun AppNavigator(
     val orderItemUiState = lunchiliciousViewModel.orderItemUiState
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     val menu by lunchiliciousViewModel.getAllMenuItems().collectAsState(initial = emptyList())
-    val orders by lunchiliciousViewModel.getAllFoodOrders().collectAsState(initial = emptyList())
 
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -102,7 +100,6 @@ fun AppNavigator(
                 composable(LunchiliciousScreens.PreviousOrdersScreen) {
                     PreviousOrdersScreen(
                         foodOrderUiState = foodOrderUiState,
-                        orders = orders,
                         lunchiliciousViewModel = lunchiliciousViewModel,
                         navigateToOrderDetailsScreen = {
                             navController.navigate("${LunchiliciousScreens.OrderDetailsScreen}/${it}")
