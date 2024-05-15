@@ -116,11 +116,7 @@ fun AppNavigator(
                     val arguments = requireNotNull(it.arguments)
                     OrderDetailsScreen(
                         navigateToOrderScreen = {
-                            navController.navigate(LunchiliciousScreens.PreviousOrdersScreen) {
-                                popUpTo(LunchiliciousScreens.PreviousOrdersScreen) {
-                                    inclusive = true
-                                }
-                            }
+                            navController.popBackStack()
                         },
                         orderId = arguments.getString("orderId")?: error("Invalid Item"),
                         orderItemUiState = orderItemUiState,

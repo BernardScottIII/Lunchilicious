@@ -70,7 +70,7 @@ class LunchiliciousViewModel (
 
     init {
         getMenuItems()
-        getAllOrders()
+        //getAllOrders()
     }
 
     fun selectMenuItem(menuItem: MenuItem) {
@@ -215,7 +215,7 @@ class LunchiliciousViewModel (
             LunchiliciousUiState.Success(lunchiliciousRepo.getMenuItems()).menuItems.forEach {
                 insertMenuItem(
                     MenuItem(
-                        id = it.id + 10,
+                        id = it.id,
                         type = it.type,
                         name = it.name,
                         description = it.description,
@@ -249,7 +249,6 @@ class LunchiliciousViewModel (
     }
 
     fun getLineItemsByOrderId(orderId: String) {
-        Log.i("ORDERID", "getting line items for ($orderId)...")
         viewModelScope.launch {
             orderItemUiState = OrderItemUiState.Loading
             orderItemUiState = try {
@@ -259,14 +258,13 @@ class LunchiliciousViewModel (
             } catch (e: HttpException) {
                 OrderItemUiState.Error
             }
-            Log.i("ORDERID" , "State after try: ${orderItemUiState}")
         }
     }
 
     fun addMenuItem(menuItem: MenuItem) {
         viewModelScope.launch {
             val newMenuItem = lunchiliciousRepo.addMenuItem(menuItem)
-            val newId = newMenuItem.id + 10
+            val newId = newMenuItem.id
             lunchiliciousRepo.insertMenuItem(
                 MenuItem(
                     id = newId,
