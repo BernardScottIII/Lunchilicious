@@ -13,13 +13,10 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.scottb4.lunchilicious.data.FoodOrder
-import com.scottb4.lunchilicious.data.MenuItem
 
 @Composable
 fun FoodOrdersColumn(
@@ -35,29 +32,31 @@ fun FoodOrdersColumn(
         contentPadding = PaddingValues(6.dp)
     ) {
         items (orders) { foodOrder ->
-            StatelessFoodOrder(
-                foodOrder = foodOrder,
-                modifier = modifier
-                    .background(Color(0xFF3DDC97))
-            )
-            Row {
-                Spacer(modifier.weight(1F))
-                ElevatedButton(
-                    enabled = true,
-                    shape = CircleShape,
+            if(foodOrder.orderId.contains("scottb4")) {
+                StatelessFoodOrder(
+                    foodOrder = foodOrder,
                     modifier = modifier
-                        .padding(
-                            start = 24.dp,
-                            top = 6.dp,
-                            end = 24.dp,
-                            bottom = 6.dp
-                        ),
-                    onClick = {
-                        lunchiliciousViewModel.getLineItemsByOrderId(foodOrder.orderId)
-                        navigateToOrderDetailsScreen(foodOrder.orderId)
+                        .background(Color(0xFF3DDC97))
+                )
+                Row {
+                    Spacer(modifier.weight(1F))
+                    ElevatedButton(
+                        enabled = true,
+                        shape = CircleShape,
+                        modifier = modifier
+                            .padding(
+                                start = 24.dp,
+                                top = 6.dp,
+                                end = 24.dp,
+                                bottom = 6.dp
+                            ),
+                        onClick = {
+                            lunchiliciousViewModel.getLineItemsByOrderId(foodOrder.orderId)
+                            navigateToOrderDetailsScreen(foodOrder.orderId)
+                        }
+                    ) {
+                        Text(text = "Show Order Details")
                     }
-                ) {
-                    Text(text = "Show Order Details")
                 }
             }
         }

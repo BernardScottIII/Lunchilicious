@@ -70,7 +70,7 @@ class LunchiliciousViewModel (
 
     init {
         getMenuItems()
-        //getAllOrders()
+        getAllOrders()
     }
 
     fun selectMenuItem(menuItem: MenuItem) {
@@ -160,9 +160,6 @@ class LunchiliciousViewModel (
         lunchiliciousRepo.addLineItems(localLineItems)
     }
 
-    fun getAllLineItems(): Flow<List<LineItem>> =
-        lunchiliciousRepo.getAllLineItemsStream()
-
     @RequiresApi(Build.VERSION_CODES.O)
     suspend fun createNewFoodOrder(totalCost: Double): String {
         val newFoodOrder = FoodOrder(
@@ -237,18 +234,24 @@ class LunchiliciousViewModel (
                 FoodOrderUiState.Error
             }
             FoodOrderUiState.Success(lunchiliciousRepo.getAllOrders()).foodOrders.forEach {
-                insertFoodOrder(
-                    FoodOrder(
-                        orderId = it.orderId,
-                        orderDate = it.orderDate,
-                        totalCost = it.totalCost
+                if(it.orderId.contains(USERID)) {
+                    insertFoodOrder(
+                        FoodOrder(
+                            orderId = it.orderId,
+                            orderDate = it.orderDate,
+                            totalCost = it.totalCost
+                        )
                     )
-                )
+                }
             }
         }
     }
 
     fun getLineItemsByOrderId(orderId: String) {
+        if(!orderId.contains(USERID)) {
+            orderItemUiState = OrderItemUiState.Error
+            return
+        }
         viewModelScope.launch {
             orderItemUiState = OrderItemUiState.Loading
             orderItemUiState = try {
