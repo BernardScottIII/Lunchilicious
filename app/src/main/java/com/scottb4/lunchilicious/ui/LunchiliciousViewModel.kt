@@ -174,11 +174,6 @@ class LunchiliciousViewModel (
         return newFoodOrder.orderId
     }
 
-
-    fun getAllFoodOrders(): Flow<List<FoodOrder>> {
-        return lunchiliciousRepo.getAllFoodOrdersStream()
-    }
-
     fun insertFoodOrder(foodOrder: FoodOrder) {
         viewModelScope.launch {
             lunchiliciousRepo.insertFoodOrder(foodOrder)
